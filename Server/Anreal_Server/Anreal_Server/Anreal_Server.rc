@@ -58,25 +58,29 @@ IDR_MAINFRAME           ICON                    "res\\Anreal_Server.ico"
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG 0, 0, 187, 102
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUTBOX DIALOGEX 0, 0, 187, 102
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,81,50,14
-    CTEXT           "Anreal_Server Application v1.0\n\n(c) Copyright 2014",IDC_STATIC,25,57,78,32
-    ICON            IDR_MAINFRAME,IDC_STATIC,55,26,18,20
+    CTEXT           "Anreal Server v0.1\n\nCopyright (C) 2014 Isaac Wang",IDC_STATIC,7,57,115,32
+    ICON            IDR_MAINFRAME,IDC_STATIC,55,26,21,20
     GROUPBOX        "",IDC_STATIC,7,7,115,88
 END
 
-IDD_MAINDLG DIALOG 0, 0, 187, 98
+IDD_MAINDLG DIALOGEX 0, 0, 205, 124
 STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
-CAPTION "Anreal_Server"
-FONT 8, "MS Shell Dlg"
+CAPTION "Anreal Server"
+FONT 8, "Microsoft Sans Serif", 400, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,130,7,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,130,24,50,14
-    PUSHBUTTON      "&About",ID_APP_ABOUT,130,77,50,14
+    LTEXT           "Anreal",IDC_TITLE,12,8,22,8
+    LTEXT           "v0.1",IDC_STATIC,36,8,14,8
+    GROUPBOX        "Profile",IDC_STATIC,8,36,188,48
+    COMBOBOX        IDC_PROFILELIST,16,48,172,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Manage Profiles...",IDC_MANAGE,116,64,72,14
+    DEFPUSHBUTTON   "&Start",IDOK,8,92,92,24
+    PUSHBUTTON      "&Config",IDC_CONFIG,105,92,92,24
 END
 
 
@@ -99,36 +103,12 @@ BEGIN
     IDD_MAINDLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 180
+        RIGHTMARGIN, 204
         TOPMARGIN, 7
-        BOTTOMMARGIN, 91
+        BOTTOMMARGIN, 123
     END
 END
 #endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Accelerator
-//
-
-IDR_MAINFRAME ACCELERATORS
-BEGIN
-    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
-    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
-    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
-    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
-    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
-    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
-    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
-    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
-    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
-    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
-    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
-    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
-    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
-    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
-END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -151,12 +131,12 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904B0"
+        BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "Anreal_Server Module"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "Anreal_Server"
-            VALUE "LegalCopyright", "Copyright 2014"
+            VALUE "LegalCopyright", "Copyright (C) 2014 Isaac Wang"
             VALUE "OriginalFilename", "Anreal_Server.exe"
             VALUE "ProductName", "Anreal_Server Module"
             VALUE "ProductVersion", "1, 0, 0, 1"
