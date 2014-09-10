@@ -122,6 +122,7 @@
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ThreadHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Anreal_Server.rc" />

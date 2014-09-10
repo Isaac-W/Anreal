@@ -47,6 +47,9 @@
     <ClInclude Include="ConfigDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Anreal_Server.rc">

@@ -36,5 +36,5 @@ private:
 	void CloseDialog(int nVal);
 
 private:
-	HFONT _hTitleFont;
+	HFONT m_hTitleFont;
 };

@@ -8,7 +8,7 @@
 #include "MainDlg.h"
 
 CMainDlg::CMainDlg() :
-	_hTitleFont(NULL)
+	m_hTitleFont(NULL)
 {
 }
 
@@ -39,7 +39,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	//
 
 	// Title
-	_hTitleFont = CreateFont(	48, 0,
+	m_hTitleFont = CreateFont(	48, 0,
 								0, 0,
 								FW_NORMAL,
 								FALSE, FALSE, FALSE,
@@ -48,8 +48,8 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 								ANTIALIASED_QUALITY, DEF_PRIORITY | FF_MODERN,
 								"Segoe UI Light");
 
-	_ASSERTE(_hTitleFont);
-	GetDlgItem(IDC_TITLE).SetFont(_hTitleFont);
+	_ASSERTE(m_hTitleFont);
+	GetDlgItem(IDC_TITLE).SetFont(m_hTitleFont);
 	
 	//
 	//	Load config
@@ -68,7 +68,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
 LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	if (_hTitleFont) DeleteObject(_hTitleFont);
+	if (m_hTitleFont) DeleteObject(m_hTitleFont);
 
 	return 0;
 }
@@ -76,6 +76,17 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	// Toggle thread start/stop-- use transmit helper class (holds settings and thread wrapper)
+
+	// Load settings from file
+
+	// Create tracker/capture objects
+
+	// Set tracker/capture parameters
+
+	// Init tracker/capture
+
+	// Run tracker/capture
+
 	return 0;
 }
 
