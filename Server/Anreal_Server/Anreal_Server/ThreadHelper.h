@@ -2,8 +2,14 @@
 
 #pragma once
 
-// 
-#define HTHREAD HANDLE
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#include <Windows.h>
+
+// Function prototypes
+DWORD WINAPI RunnableProc(LPVOID lpParameter);
 
 /////////////////////////////////////////////////////////////////////////////
 // CRunnable
@@ -12,7 +18,7 @@
 class CRunnable
 {
 public:
-	// Default constructor.
+	// Default constructor. Initializes stop request flag.
 	CRunnable() :
 		m_bRequestStop(false)
 	{
@@ -20,39 +26,47 @@ public:
 
 	// A procedure that is intended to be executed by a thread.
 	virtual void Run() = 0;
-private:
+
+public:
 	bool m_bRequestStop; // Flag that may be set to notify the procedure to stop. Use if writing a loop in Run().
 };
 
 /////////////////////////////////////////////////////////////////////////////
 // CThread
 
-// Class that encapsulates a thread of execution. Extends CRunnable.
-// CThread may be extended to provide its own Run() implementation.
+// Class that encapsulates a thread of execution. Inherits from CRunnable.
+// CThread may be extended to provide a local Run() implementation.
 class CThread :
 	public CRunnable
 {
 public:
+	// Default constructor. Sets CRunnable pointer to the current instance.
 	CThread()
 	{
-		// TODO
+		m_pRunnable = this;
+	}
+	
+	// Overloaded constructor. Sets CRunnable pointer to the passed argument.
+	CThread(CRunnable *pVar)
+	{
+		m_pRunnable = pVar;
 	}
 
+	// Destructor. Performs cleanup of class variables.
 	~CThread()
 	{
 		if (m_hThread) CloseHandle(m_hThread); // Release handle
 	}
 
+	// Starts execution of the thread.
 	void Start()
 	{
 		m_hThread = CreateThread(NULL,
 								 0,
-								 StartRunnable,
+								 RunnableProc,
 								 m_pRunnable,
 								 0,
 								 &m_dwThreadID);
-
-		// TODO
 	}
 
 	// Force stops the thread.
@@ -61,24 +75,26 @@ public:
 		// TODO
 	}
 
-	// Dummy method.
+	// Dummy method to allow creation of CThread instances.
+	// Method may be overridden to provide a local Run() implementation.
 	virtual void Run()
 	{
-		// TODO
 	}
 
 private:
 	// Thread management
-	HTHREAD m_hThread;			// Handle to Win32 thread
+	HANDLE m_hThread;			// Handle to Win32 thread
 	DWORD m_dwThreadID;			// Thread ID
 
-	// CRunnable variables
+	// 
 	CRunnable *m_pRunnable;		// Pointer to CRunnable instance
 };
 
 // Thread callback. Parameter is a pointer to a CRunnable to execute in the thread.
-DWORD WINAPI StartRunnable(LPVOID lpParameter)
+DWORD WINAPI RunnableProc(LPVOID lpParameter)
 {
 	CRunnable *pRunnable = (CRunnable *)lpParameter;
 	if (pRunnable) pRunnable->Run(); // Safety check
+
+	return 0;
 }

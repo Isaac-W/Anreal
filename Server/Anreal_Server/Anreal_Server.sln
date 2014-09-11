@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Anreal_Server", "Anreal_Server\Anreal_Server.vcxproj", "{C9827889-4C1D-458B-9C58-0606A3CEE9AE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Anreal_Tracker", "Anreal_Tracker\Anreal_Tracker.vcxproj", "{E33662AC-60F4-492F-B20C-325315A54408}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Anreal_Capture", "Anreal_Capture\Anreal_Capture.vcxproj", "{4C4492C6-AA8C-40A4-A14B-477318324884}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -17,14 +13,6 @@ Global
 		{C9827889-4C1D-458B-9C58-0606A3CEE9AE}.Debug|Win32.Build.0 = Debug|Win32
 		{C9827889-4C1D-458B-9C58-0606A3CEE9AE}.Release|Win32.ActiveCfg = Release|Win32
 		{C9827889-4C1D-458B-9C58-0606A3CEE9AE}.Release|Win32.Build.0 = Release|Win32
-		{E33662AC-60F4-492F-B20C-325315A54408}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E33662AC-60F4-492F-B20C-325315A54408}.Debug|Win32.Build.0 = Debug|Win32
-		{E33662AC-60F4-492F-B20C-325315A54408}.Release|Win32.ActiveCfg = Release|Win32
-		{E33662AC-60F4-492F-B20C-325315A54408}.Release|Win32.Build.0 = Release|Win32
-		{4C4492C6-AA8C-40A4-A14B-477318324884}.Debug|Win32.ActiveCfg = Debug|Win32
-		{4C4492C6-AA8C-40A4-A14B-477318324884}.Debug|Win32.Build.0 = Debug|Win32
-		{4C4492C6-AA8C-40A4-A14B-477318324884}.Release|Win32.ActiveCfg = Release|Win32
-		{4C4492C6-AA8C-40A4-A14B-477318324884}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
