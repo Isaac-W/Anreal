@@ -1,4 +1,4 @@
-// Like Hamburger Helper but with over 9000% more fiber -- all those threads!
+// Like Hamburger Helper but with over 9000% more fiber!
 
 #pragma once
 
@@ -8,7 +8,10 @@
 
 #include <Windows.h>
 
+/////////////////////////////////////////////////////////////////////////////
 // Function prototypes
+
+// Thread callback. Parameter is a pointer to a CRunnable to execute in the thread.
 DWORD WINAPI RunnableProc(LPVOID lpParameter);
 
 /////////////////////////////////////////////////////////////////////////////
@@ -41,45 +44,23 @@ class CThread :
 {
 public:
 	// Default constructor. Sets CRunnable pointer to the current instance.
-	CThread()
-	{
-		m_pRunnable = this;
-	}
+	CThread();
 	
 	// Overloaded constructor. Sets CRunnable pointer to the passed argument.
-	CThread(CRunnable *pVar)
-	{
-		m_pRunnable = pVar;
-	}
+	CThread(CRunnable *pVar);
 
 	// Destructor. Performs cleanup of class variables.
-	~CThread()
-	{
-		if (m_hThread) CloseHandle(m_hThread); // Release handle
-	}
+	~CThread();
 
 	// Starts execution of the thread.
-	void Start()
-	{
-		m_hThread = CreateThread(NULL,
-								 0,
-								 RunnableProc,
-								 m_pRunnable,
-								 0,
-								 &m_dwThreadID);
-	}
+	void Start();
 
 	// Force stops the thread.
-	void Stop()
-	{
-		// TODO
-	}
+	void Stop();
 
 	// Dummy method to allow creation of CThread instances.
 	// Method may be overridden to provide a local Run() implementation.
-	virtual void Run()
-	{
-	}
+	virtual void Run();
 
 private:
 	// Thread management
@@ -89,12 +70,3 @@ private:
 	// 
 	CRunnable *m_pRunnable;		// Pointer to CRunnable instance
 };
-
-// Thread callback. Parameter is a pointer to a CRunnable to execute in the thread.
-DWORD WINAPI RunnableProc(LPVOID lpParameter)
-{
-	CRunnable *pRunnable = (CRunnable *)lpParameter;
-	if (pRunnable) pRunnable->Run(); // Safety check
-
-	return 0;
-}
