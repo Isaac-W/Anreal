@@ -25,13 +25,45 @@ public:
 	CRunnable() :
 		m_bRequestStop(false)
 	{
+		InitializeCriticalSection(&m_csRequestStop);
+	}
+
+	// Destructor. Releases critical section resources.
+	~CRunnable()
+	{
+		DeleteCriticalSection(&m_csRequestStop);
+	}
+
+	// Returns true if the stop flag has been set.
+	bool IsStopRequested()
+	{
+		bool bTemp = false;
+		
+		EnterCriticalSection(&m_csRequestStop);
+		{
+			bTemp = m_bRequestStop;
+		}
+		LeaveCriticalSection(&m_csRequestStop);
+
+		return bTemp;
+	}
+
+	// Raises the m_bRequestStop flag.
+	void RequestStop()
+	{
+		EnterCriticalSection(&m_csRequestStop);
+		{
+			m_bRequestStop = true;
+		}
+		LeaveCriticalSection(&m_csRequestStop);
 	}
 
 	// A procedure that is intended to be executed by a thread.
 	virtual void Run() = 0;
 
-public:
+private:
 	bool m_bRequestStop; // Flag that may be set to notify the procedure to stop. Use if writing a loop in Run().
+	CRITICAL_SECTION m_csRequestStop; // Critical section for the m_bRequestStop variable
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Capture.h"
 
-CCapture::CCapture(void)
+CCapture::CCapture()
 {
 }
 
-CCapture::~CCapture(void)
+CCapture::~CCapture()
 {
 }

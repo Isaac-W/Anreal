@@ -6,7 +6,7 @@ class CTracker :
 	public CRunnable
 {
 public:
-	CTracker(void);
-	~CTracker(void);
+	CTracker();
+	~CTracker();
 };
 

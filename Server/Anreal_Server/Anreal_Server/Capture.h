@@ -6,7 +6,7 @@ class CCapture :
 	public CRunnable
 {
 public:
-	CCapture(void);
-	~CCapture(void);
+	CCapture();
+	~CCapture();
 };
 
