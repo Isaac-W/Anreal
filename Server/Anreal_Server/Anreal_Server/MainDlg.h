@@ -38,8 +38,19 @@ private:
 	void RefreshProfiles();
 
 	HRESULT LoadConfig(CString strPath);
+	HRESULT SaveConfig(CString strPath);
+	
 	HRESULT LoadProfile(CString strPath);
 
 private:
 	HFONT m_hTitleFont;
+
+	CString m_strAppPath;
+
+	// Config
+	CString m_strConfigPath;
+	CString m_strProfilePath;
+	USHORT m_nTrackerPort;
+	USHORT m_nDisplayPort;
+	USHORT m_nCompressionLvl;
 };

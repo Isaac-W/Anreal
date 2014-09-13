@@ -34,7 +34,7 @@ void CThread::Start()
 							 0,
 							 &m_dwThreadID);
 
-	_ASSERTE(m_hThread);
+	ATLASSERT(m_hThread);
 }
 
 void CThread::Stop()
@@ -46,15 +46,15 @@ void CThread::Stop()
 
 	// Wait for thread to finish execution (blocks)
 	DWORD dwWaitRet = WaitForSingleObject(m_hThread, INFINITE);
-	_ASSERTE(0 == dwWaitRet);
+	ATLASSERT(0 == dwWaitRet);
 
 	// Get exit code
 	DWORD dwExitCode = GetExitCodeThread(m_hThread, &dwExitCode);
-	_ASSERTE(STILL_ACTIVE != dwExitCode);
+	ATLASSERT(STILL_ACTIVE != dwExitCode);
 
 	// Release thread handle
 	BOOL bSuccess = CloseHandle(m_hThread);
-	_ASSERTE(bSuccess);
+	ATLASSERT(bSuccess);
 
 	m_hThread = NULL;
 }

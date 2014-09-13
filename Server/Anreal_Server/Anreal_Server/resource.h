@@ -11,11 +11,11 @@
 #define IDC_TITLE                       1000
 #define IDC_PROFILELIST                 1002
 #define IDC_MANAGE                      1006
-#define IDC_EDIT1                       1007
+#define IDC_PROFILE_PATH                1007
 #define IDC_BROWSE_PROFILES             1008
 #define IDC_TRACKER_PORT                1009
-#define IDC_TRACKER_PORT2               1010
 #define IDC_CAPTURE_PORT                1010
+#define IDC_COMPRESSION_LVL             1011
 
 // Next default values for new objects
 // 

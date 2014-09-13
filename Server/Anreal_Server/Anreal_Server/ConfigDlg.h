@@ -26,5 +26,11 @@ private:
 
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+
+public:
+	CString m_strProfilePath;
+	USHORT m_nTrackerPort;
+	USHORT m_nDisplayPort;
+	USHORT m_nCompressionLvl;
 };
 
