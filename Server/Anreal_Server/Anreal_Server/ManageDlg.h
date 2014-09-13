@@ -1,25 +1,23 @@
-// MainDlg.h : interface of the CMainDlg class
+// ManageDlg.h : interface of the CManageDlg class
 //
 /////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-class CMainDlg :
-	public CDialogImpl<CMainDlg>
+class CManageDlg :
+	public CDialogImpl<CManageDlg>
 {
 public:
-	enum { IDD = IDD_MAINDLG };
+	enum { IDD = IDD_MANAGEDLG };
 
-	CMainDlg();
-	~CMainDlg();
+	CManageDlg();
+	~CManageDlg();
 
-	BEGIN_MSG_MAP(CMainDlg)
+	BEGIN_MSG_MAP(CManageDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		COMMAND_ID_HANDLER(IDOK, OnOK)
 		COMMAND_ID_HANDLER(IDCANCEL, OnCancel)
-		COMMAND_ID_HANDLER(IDC_CONFIG, OnConfig)
-		COMMAND_ID_HANDLER(IDC_MANAGE, OnManageProfiles)
 	END_MSG_MAP()
 
 private:
@@ -28,18 +26,5 @@ private:
 
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-
-	LRESULT OnConfig(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnManageProfiles(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-
-private:
-	void CloseDialog(int nVal);
-	
-	void RefreshProfiles();
-
-	HRESULT LoadConfig(CString strPath);
-	HRESULT LoadProfile(CString strPath);
-
-private:
-	HFONT m_hTitleFont;
 };
+

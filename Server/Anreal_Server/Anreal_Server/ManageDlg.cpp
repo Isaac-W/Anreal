@@ -1,21 +1,21 @@
-// ConfigDlg.cpp : implementation of the CConfigDlg class
+// ManageDlg.cpp : implementation of the CManageDlg class
 //
 /////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "resource.h"
 
-#include "ConfigDlg.h"
+#include "ManageDlg.h"
 
-CConfigDlg::CConfigDlg()
+CManageDlg::CManageDlg()
 {
 }
 
-CConfigDlg::~CConfigDlg()
+CManageDlg::~CManageDlg()
 {
 }
 
-LRESULT CConfigDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+LRESULT CManageDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
 	//
 	//	Center dialog
@@ -36,18 +36,18 @@ LRESULT CConfigDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPar
 	return TRUE;
 }
 
-LRESULT CConfigDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+LRESULT CManageDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
 	return 0;
 }
 
-LRESULT CConfigDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CManageDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	EndDialog(wID);
 	return 0;
 }
 
-LRESULT CConfigDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CManageDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	EndDialog(wID);
 	return 0;

@@ -5,7 +5,6 @@
 #include "resource.h"
 
 #include "MainDlg.h"
-#include "ConfigDlg.h"
 
 CAppModule _Module;
 

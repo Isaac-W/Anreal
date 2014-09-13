@@ -7,6 +7,9 @@
 
 #include "MainDlg.h"
 
+#include "ConfigDlg.h"
+#include "ManageDlg.h"
+
 CMainDlg::CMainDlg() :
 	m_hTitleFont(NULL)
 {
@@ -38,7 +41,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	//	Set font
 	//
 
-	// Title
+	// Title (TODO: Use CreatePointFont?)
 	m_hTitleFont = CreateFont(	48, 0,
 								0, 0,
 								FW_NORMAL,
@@ -59,6 +62,12 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
 	//
 	//	Load profiles
+	//
+
+	RefreshProfiles();
+
+	//
+	//	Select last item in list
 	//
 
 	// TODO
@@ -98,18 +107,80 @@ LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 
 LRESULT CMainDlg::OnConfig(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
+	//
+	//	Show Config dialog
+	//
+	
 	// Show configuration dialog; update changes in transmit helper class
+	CConfigDlg dlg;
+
+	// Init settings
+	// TODO
+
+	// Show dialog
+	dlg.DoModal();
+
 	return 0;
 }
 
 LRESULT CMainDlg::OnManageProfiles(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	// Show profile management dialog; update changes in transmit helper class
+	//
+	//	Get profile name
+	//
+
+	// TODO: Store profile name/path in string
+	
+	//
+	//	Show Manage Profiles dialog
+	//
+
+	CManageDlg dlg;
+
+	// Init settings
+	// TODO
+
+	// Show dialog
+	dlg.DoModal();
+
+	//
+	//	Update changes
+	//
+
+	RefreshProfiles();
+
+	//
+	//	Select previous profile
+	//
+
+	// TODO: Use name to select profile
+
 	return 0;
 }
 
 void CMainDlg::CloseDialog(int nVal)
 {
+	//
+	//	Save settings
+	//
+
+	// TODO
+
 	DestroyWindow();
 	::PostQuitMessage(nVal);
+}
+
+void CMainDlg::RefreshProfiles()
+{
+
+}
+
+HRESULT CMainDlg::LoadConfig(CString strPath)
+{
+	return E_NOTIMPL;
+}
+
+HRESULT CMainDlg::LoadProfile(CString strPath)
+{
+	return E_NOTIMPL;
 }
