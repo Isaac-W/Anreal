@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "MemTracker.h"
+
 class CMainDlg :
 	public CDialogImpl<CMainDlg>
 {
@@ -44,8 +46,14 @@ private:
 
 private:
 	HFONT m_hTitleFont;
-
 	CString m_strAppPath;
+
+	// Threads
+	CThread *m_pTrackThread;
+	CRunnable *m_pTracker;
+
+	CThread *m_pCaptureThread;
+	CRunnable *m_pCapture;
 
 	// Config
 	CString m_strConfigPath;

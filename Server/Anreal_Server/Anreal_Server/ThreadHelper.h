@@ -99,6 +99,6 @@ private:
 	HANDLE m_hThread;			// Handle to Win32 thread
 	DWORD m_dwThreadID;			// Thread ID
 
-	// 
+	// Runnable
 	CRunnable *m_pRunnable;		// Pointer to CRunnable instance
 };

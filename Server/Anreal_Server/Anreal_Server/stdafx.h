@@ -23,12 +23,17 @@ extern CAppModule _Module;
 #include <atldlgs.h>
 #include <atlstr.h>
 
+/////////////////////////////////////////////////////////////////////////////
 // Local headers
+
 #include "ThreadHelper.h"
 
+/////////////////////////////////////////////////////////////////////////////
 // Constants
+
 #define CONFIG_PATH _T("\\anreal_server.cfg")
 
+// Defaults
 #define DEFAULT_PROFILE_PATH _T("\\Profiles\\")
 #define DEFAULT_TRACKER_PORT 5250
 #define DEFAULT_CAPTURE_PORT 5251

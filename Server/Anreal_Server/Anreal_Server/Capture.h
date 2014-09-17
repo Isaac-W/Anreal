@@ -2,8 +2,7 @@
 
 #include "ThreadHelper.h"
 
-class CCapture :
-	public CRunnable
+class CCapture
 {
 public:
 	CCapture();
