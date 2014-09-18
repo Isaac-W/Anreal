@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include "MemTracker.h"
-
 class CMainDlg :
 	public CDialogImpl<CMainDlg>
 {

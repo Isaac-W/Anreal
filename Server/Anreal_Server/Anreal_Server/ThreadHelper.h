@@ -29,7 +29,7 @@ public:
 	}
 
 	// Destructor. Releases critical section resources.
-	~CRunnable()
+	virtual ~CRunnable()
 	{
 		DeleteCriticalSection(&m_csRequestStop);
 	}
@@ -82,7 +82,7 @@ public:
 	CThread(CRunnable *pVar);
 
 	// Destructor. Performs cleanup of class variables.
-	~CThread();
+	virtual ~CThread();
 
 	// Starts execution of the thread.
 	void Start();
