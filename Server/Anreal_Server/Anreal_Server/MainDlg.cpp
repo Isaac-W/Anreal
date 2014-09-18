@@ -214,7 +214,7 @@ void CMainDlg::RefreshProfiles()
 HRESULT CMainDlg::LoadConfig(CString strPath)
 {
 	TCHAR szBuf[_MAX_PATH]; // Temporary buffer for reading
-	DWORD dwRet = 0;
+	DWORD nRet = 0;
 
 	GetLastError(); // Discard current error
 
@@ -223,9 +223,9 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	//
 
 	// Profile path
-	dwRet = GetPrivateProfileString(_T("Application"), _T("profile_path"), _T(""), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Application"), _T("profile_path"), _T(""), szBuf, _MAX_PATH, strPath);
 
-	if (dwRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{
 		m_strProfilePath = szBuf;
 	}
@@ -235,27 +235,27 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	//
 
 	// Tracker port
-	dwRet = GetPrivateProfileString(_T("Device"), _T("tracker_port"), _T("5250"), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("tracker_port"), _T("5250"), szBuf, _MAX_PATH, strPath);
 
-	if (dwRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{
 		int iTemp = _ttoi(szBuf);
 		if (!GetLastError() && (0 < iTemp)) m_nTrackerPort = iTemp;
 	}
 
 	// Display port
-	dwRet = GetPrivateProfileString(_T("Device"), _T("display_port"), _T("5251"), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("display_port"), _T("5251"), szBuf, _MAX_PATH, strPath);
 
-	if (dwRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{
 		int iTemp = _ttoi(szBuf);
 		if (!GetLastError() && (0 < iTemp)) m_nDisplayPort = iTemp;
 	}
 
 	// Compression level
-	dwRet = GetPrivateProfileString(_T("Device"), _T("compression"), _T("80"), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("compression"), _T("80"), szBuf, _MAX_PATH, strPath);
 
-	if (dwRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{
 		int iTemp = _ttoi(szBuf);
 		if (!GetLastError() && (0 <= iTemp)) m_nCompressionLvl = iTemp;

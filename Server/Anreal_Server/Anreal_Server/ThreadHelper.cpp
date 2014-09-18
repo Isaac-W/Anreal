@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "ThreadHelper.h"
 
-DWORD WINAPI RunnableProc(LPVOID lpParameter)
+DWORD WINAPI RunnableProc(LPVOID pParameter)
 {
-	CRunnable *pRunnable = (CRunnable *)lpParameter;
+	CRunnable *pRunnable = (CRunnable *)pParameter;
 	if (pRunnable) pRunnable->Run();
 
 	return 0;
@@ -32,7 +32,7 @@ void CThread::Start()
 							 RunnableProc,
 							 m_pRunnable,
 							 0,
-							 &m_dwThreadID);
+							 &m_nThreadID);
 
 	ATLASSERT(m_hThread);
 }
@@ -45,12 +45,12 @@ void CThread::Stop()
 	m_pRunnable->RequestStop();
 
 	// Wait for thread to finish execution (blocks)
-	DWORD dwWaitRet = WaitForSingleObject(m_hThread, INFINITE);
-	ATLASSERT(0 == dwWaitRet);
+	DWORD nWaitRet = WaitForSingleObject(m_hThread, INFINITE);
+	ATLASSERT(0 == nWaitRet);
 
 	// Get exit code
-	DWORD dwExitCode = GetExitCodeThread(m_hThread, &dwExitCode);
-	ATLASSERT(STILL_ACTIVE != dwExitCode);
+	DWORD nExitCode = GetExitCodeThread(m_hThread, &nExitCode);
+	ATLASSERT(STILL_ACTIVE != nExitCode);
 
 	// Release thread handle
 	BOOL bSuccess = CloseHandle(m_hThread);

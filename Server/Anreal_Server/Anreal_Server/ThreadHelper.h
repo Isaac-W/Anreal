@@ -12,7 +12,7 @@
 // Function prototypes
 
 // Thread callback. Parameter is a pointer to a CRunnable to execute in the thread.
-DWORD WINAPI RunnableProc(LPVOID lpParameter);
+DWORD WINAPI RunnableProc(LPVOID pParameter);
 
 /////////////////////////////////////////////////////////////////////////////
 // CRunnable
@@ -97,7 +97,7 @@ public:
 private:
 	// Thread management
 	HANDLE m_hThread;			// Handle to Win32 thread
-	DWORD m_dwThreadID;			// Thread ID
+	DWORD m_nThreadID;			// Thread ID
 
 	// Runnable
 	CRunnable *m_pRunnable;		// Pointer to CRunnable instance

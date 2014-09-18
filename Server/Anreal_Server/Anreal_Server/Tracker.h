@@ -50,7 +50,7 @@ struct TTransform
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// CTracker : CRunnable
+// CTracker
 
 // Class that represents a head tracker object that receives orientation data over UDP.
 class CTracker
