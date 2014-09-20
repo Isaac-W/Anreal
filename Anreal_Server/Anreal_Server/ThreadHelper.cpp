@@ -4,7 +4,11 @@
 DWORD WINAPI RunnableProc(LPVOID pParameter)
 {
 	CRunnable *pRunnable = (CRunnable *)pParameter;
-	if (pRunnable) pRunnable->Run();
+	
+	if (pRunnable)
+	{
+		pRunnable->Run();
+	}
 
 	return 0;
 }
@@ -39,7 +43,10 @@ void CThread::Start()
 
 void CThread::Stop()
 {
-	if (!m_hThread) return; // Nothing to do!
+	if (!m_hThread)
+	{
+		return; // Nothing to do!
+	}
 
 	// Raise force stop flag
 	m_pRunnable->RequestStop();

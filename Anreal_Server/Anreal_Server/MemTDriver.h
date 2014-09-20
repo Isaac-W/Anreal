@@ -1,23 +1,20 @@
 #pragma once
 
 #include "ThreadHelper.h"
-#include "Tracker.h"
+#include "NetTracker.h"
 
 class CMemTDriver :
 	public CRunnable
 {
 public:
-	// Default constructor.
-	CMemTDriver();
+	// Constructor. Initializes portnum and the pointer offset list.
+	// TODO... pass a new struct?
 
-	// Overloaded constructor.
-	CMemTDriver(USHORT nPortNum);
-
-	// Overloaded constructor. Initializes portnum and the specified orientation transformations.
+	// Constructor. Initializes portnum and the specified orientation transformations.
 	CMemTDriver(USHORT nPortNum, const TTransform &trkTransform);
 
 	// Destructor.
-	~CMemTDriver();
+	virtual ~CMemTDriver();
 
 	// Gets the transformation values.
 	void GetTransformation(TTransform *pTrkTransform);
@@ -29,6 +26,7 @@ public:
 	virtual void Run();
 
 private:
+	CTracker *m_pTracker;			// Pointer to member tracker
 	TTransform m_trkTransform;		// Tracker transformation values
 };
 

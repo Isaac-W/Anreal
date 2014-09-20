@@ -3,7 +3,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // Tracker data structs
 
-// Tracker orientation struct.
+// Tracker orientation struct. Angles are represented in radians.
+// Tracker angles sent over the network should follow the same data format.
 struct TOrientation
 {
 	TOrientation() :
@@ -60,6 +61,6 @@ public:
 	}
 
 	// Gets the tracker orientation.
-	virtual void GetOrientation(TOrientation *pTrkOrientation) = 0;
+	virtual HRESULT GetOrientation(TOrientation *pTrkOrientation) = 0;
 };
 

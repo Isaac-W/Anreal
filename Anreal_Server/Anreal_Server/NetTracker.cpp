@@ -35,18 +35,55 @@ CNetTracker::~CNetTracker()
 	CloseWinsock();
 }
 
-void CNetTracker::GetOrientation(TOrientation *pTrkOrientation)
+HRESULT CNetTracker::GetOrientation(TOrientation *pTrkOrientation)
 {
+	if (!pTrkOrientation)
+	{
+		return E_POINTER;
+	}
+
+	//
+	//	Get data from socket
+	//
+
+	// Data buffer
+	char pBuf[TRK_BUF_SIZE];
+
 	// Sender info
 	SOCKADDR_IN addrSender;
 	int nAddrSenderSize = sizeof(addrSender);
-	int nBytesReceived = 0;
 
-	// Data buffer
-	const USHORT BUF_SIZE = 512; // bytes (TODO: Make constant or configurable)
-	char pBuf[BUF_SIZE];
+	// Blocks if no incoming data
+	int nBytesReceived = recvfrom(	m_hSocket,
+									pBuf, TRK_BUF_SIZE, 0,
+									(SOCKADDR *)(&addrSender), &nAddrSenderSize);
 
-	// TODO -- Abort if network timeout
+	if (SOCKET_ERROR == nBytesReceived)
+	{
+		return E_FAIL;
+	}
+
+	//
+	//	Convert raw data to orientation struct
+	//
+
+	USHORT nCurByte = 0;
+
+	// Yaw
+	memcpy(&(pTrkOrientation->fYaw), &(pBuf[nCurByte]), sizeof(pTrkOrientation->fYaw));
+	nCurByte += sizeof(pTrkOrientation->fYaw);
+
+	// Pitch
+	memcpy(&(pTrkOrientation->fPitch), &(pBuf[nCurByte]), sizeof(pTrkOrientation->fPitch));
+	nCurByte += sizeof(pTrkOrientation->fPitch);
+
+	// Roll
+	memcpy(&(pTrkOrientation->fRoll), &(pBuf[nCurByte]), sizeof(pTrkOrientation->fRoll));
+	nCurByte += sizeof(pTrkOrientation->fRoll);
+
+	ATLASSERT(sizeof(TOrientation) >= nCurByte);
+
+	return S_OK;
 }
 
 HRESULT CNetTracker::InitWinsock()
@@ -96,36 +133,40 @@ HRESULT CNetTracker::CloseWinsock()
 
 HRESULT CNetTracker::OpenSocket()
 {
-	//
-	//	Open socket
-	//
-
-	m_hSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-
-	if (INVALID_SOCKET == m_hSocket)
+	if (!m_hSocket)
 	{
-		m_hSocket = NULL;
-		return E_FAIL;
+		//
+		//	Open socket
+		//
+
+		m_hSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+		if (INVALID_SOCKET == m_hSocket)
+		{
+			m_hSocket = NULL;
+			return E_FAIL;
+		}
+
+		//
+		//	Set up receiving address
+		//
+
+		SOCKADDR_IN addrReceive;
+
+		addrReceive.sin_family = AF_INET;
+		addrReceive.sin_addr.s_addr = htonl(INADDR_ANY); // Sender address does not matter
+		addrReceive.sin_port = htons(m_nPort);
+
+		// Bind address to socket
+		if (SOCKET_ERROR == bind(m_hSocket, (sockaddr *)(&addrReceive), sizeof(addrReceive)))
+		{
+			CloseSocket();
+			return E_FAIL;
+		}
+
+		ATLASSERT(m_hSocket);
 	}
 
-	//
-	//	Set up receiving address
-	//
-
-	SOCKADDR_IN addrReceive;
-
-	addrReceive.sin_family = AF_INET;
-	addrReceive.sin_addr.s_addr = htonl(INADDR_ANY); // Sender address does not matter
-	addrReceive.sin_port = htons(m_nPort);
-
-	// Bind address to socket
-	if (SOCKET_ERROR == bind(m_hSocket, (sockaddr *)(&addrReceive), sizeof(addrReceive)))
-	{
-		CloseSocket();
-		return E_FAIL;
-	}
-
-	ATLASSERT(m_hSocket);
 	return S_OK;
 }
 

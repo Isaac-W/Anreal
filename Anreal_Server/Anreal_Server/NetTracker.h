@@ -25,7 +25,7 @@ public:
 	virtual ~CNetTracker();
 
 	// Gets tracker data from the socket. Blocks if no incoming data.
-	virtual void GetOrientation(TOrientation *pTrkOrientation);
+	virtual HRESULT GetOrientation(TOrientation *pTrkOrientation);
 
 private:
 	// Initializes the Winsock DLL.

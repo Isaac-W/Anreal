@@ -98,7 +98,10 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
 LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	if (m_hTitleFont) DeleteObject(m_hTitleFont);
+	if (m_hTitleFont)
+	{
+		DeleteObject(m_hTitleFont);
+	}
 
 	return 0;
 }
@@ -240,7 +243,10 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{
 		int iTemp = _ttoi(szBuf);
-		if (!GetLastError() && (0 < iTemp)) m_nTrackerPort = iTemp;
+		if (!GetLastError() && (0 < iTemp))
+		{
+			m_nTrackerPort = iTemp;
+		}
 	}
 
 	// Display port
@@ -249,7 +255,10 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{
 		int iTemp = _ttoi(szBuf);
-		if (!GetLastError() && (0 < iTemp)) m_nDisplayPort = iTemp;
+		if (!GetLastError() && (0 < iTemp))
+		{
+			m_nDisplayPort = iTemp;
+		}
 	}
 
 	// Compression level
@@ -258,7 +267,10 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{
 		int iTemp = _ttoi(szBuf);
-		if (!GetLastError() && (0 <= iTemp)) m_nCompressionLvl = iTemp;
+		if (!GetLastError() && (0 <= iTemp))
+		{
+			m_nCompressionLvl = iTemp;
+		}
 	}
 
 	return S_OK;
