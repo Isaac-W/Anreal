@@ -1,4 +1,0 @@
-Anreal
-======
-
-Android Virtual Reality
