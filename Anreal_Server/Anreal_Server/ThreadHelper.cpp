@@ -31,6 +31,8 @@ CThread::~CThread()
 
 void CThread::Start()
 {
+	m_pRunnable->ResetStop();
+
 	m_hThread = CreateThread(NULL,
 							 0,
 							 RunnableProc,

@@ -48,6 +48,16 @@ public:
 		return bTemp;
 	}
 
+	// Resets the m_bRequestStop flag.
+	void ResetStop()
+	{
+		EnterCriticalSection(&m_csRequestStop);
+		{
+			m_bRequestStop = false;
+		}
+		LeaveCriticalSection(&m_csRequestStop);
+	}
+
 	// Raises the m_bRequestStop flag.
 	void RequestStop()
 	{

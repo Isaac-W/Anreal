@@ -6,9 +6,12 @@
 #include "resource.h"
 
 #include "MainDlg.h"
-
 #include "ConfigDlg.h"
 #include "ManageDlg.h"
+
+#include "Tracker.h"
+#include "NetTracker.h"
+#include "MemTDriver.h"
 
 CMainDlg::CMainDlg() :
 	m_hTitleFont(NULL),
@@ -108,6 +111,48 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
+	// TODO: Perform test -- for Skyrim!
+	static bool bRunning = false;
+
+	if (!bRunning)
+	{
+		// Init tracker parameters
+		TMemParam trkParam;
+
+		trkParam.strProcess = _T("TESV.EXE");
+		trkParam.strModule = _T("TESV.EXE");
+
+		trkParam.lstYaw.push_back(0x01739ac4);
+		trkParam.lstYaw.push_back(0x30);
+
+		trkParam.lstPitch.push_back(0x01739ac4);
+		trkParam.lstPitch.push_back(0x28);
+
+		trkParam.bDisableRoll = true;
+		trkParam.lstRoll.push_back(0x01739ac4);
+		trkParam.lstRoll.push_back(0x32);
+
+		// Init transformation values
+		TTransform trkTransform;
+
+		trkTransform.fYawMult = 1.0;
+		trkTransform.fYawOffset = 180.0;
+
+		trkTransform.fPitchMult = -1.0;
+		trkTransform.fPitchOffset = 90.0;
+
+		// Create once... todo: properly create and destroy when start/stop
+		m_pTracker = new CMemTDriver(m_nTrackerPort, trkParam, trkTransform);
+		m_pTrackThread = new CThread(m_pTracker);
+
+		// Start
+		m_pTrackThread->Start();
+
+		bRunning = true;
+	}
+	// TODO: End test
+
+
 	// Toggle thread start/stop-- use transmit helper class (holds settings and thread wrapper)
 
 	// Load settings from file
