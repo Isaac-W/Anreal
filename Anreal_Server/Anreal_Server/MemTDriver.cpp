@@ -121,7 +121,8 @@ void CMemTDriver::Run()
 
 	DWORD nBaseAddr = 0;
 
-	// Derive module address from process if name is not blank
+	// Derive module address from process if name is not blank;
+	// if module name is blank; base addr is considered 0... use offsets only!
 	if (m_trkParam.strModule.GetLength())
 	{
 		// Get snapshot of all processes in process
@@ -174,7 +175,7 @@ void CMemTDriver::Run()
 	}
 
 	//
-	//	Get final orientation pointers
+	//	Follow offsets to get address of camera angles in memory
 	//
 
 	DWORD nYawAddr = 0;
@@ -206,13 +207,16 @@ void CMemTDriver::Run()
 	}
 
 	//
-	//	Main loop
+	//	Main tracker loop
 	//
 
 	HRESULT res;
 	TOrientation trkOrientation;
 	ULONG nPrevTime = GetTickCount();
 
+	const ULONG MAX_SLEEP_TIME = TIME_VAL_SEC / TRK_UPDATE_RATE; // Determine sleep time based on desired rate
+
+	// IMPORTANT: Need to check for stop request flag, in case loop needs to be stopped during program execution!
 	while (!IsStopRequested())
 	{
 		//
@@ -232,10 +236,17 @@ void CMemTDriver::Run()
 			// Apply transformation
 			float fVal = trkOrientation.fYaw * m_trkTransform.fYawMult + m_trkTransform.fYawOffset;
 
+			// Convert radians to degrees
+			if (m_trkParam.bYawToDeg)
+			{
+				fVal *= RAD_TO_DEG;
+			}
+
 			// Write value to memory
 			if (0 == WriteProcessMemory(hProcess, (LPVOID)(nYawAddr), &fVal, sizeof(fVal), NULL))
 			{
 				ATLASSERT(0 && "Failed to write Yaw value.");
+				return;
 			}
 		}
 
@@ -245,10 +256,17 @@ void CMemTDriver::Run()
 			// Apply transformation
 			float fVal = trkOrientation.fPitch * m_trkTransform.fPitchMult + m_trkTransform.fPitchOffset;
 
+			// Convert radians to degrees
+			if (m_trkParam.bPitchToDeg)
+			{
+				fVal *= RAD_TO_DEG;
+			}
+
 			// Write value to memory
 			if (0 == WriteProcessMemory(hProcess, (LPVOID)(nPitchAddr), &fVal, sizeof(fVal), NULL))
 			{
 				ATLASSERT(0 && "Failed to write Pitch value.");
+				return;
 			}
 		}
 
@@ -258,10 +276,17 @@ void CMemTDriver::Run()
 			// Apply transformation
 			float fVal = trkOrientation.fRoll * m_trkTransform.fRollMult + m_trkTransform.fRollOffset;
 
+			// Convert radians to degrees
+			if (m_trkParam.bRollToDeg)
+			{
+				fVal *= RAD_TO_DEG;
+			}
+
 			// Write value to memory
 			if (0 == WriteProcessMemory(hProcess, (LPVOID)(nRollAddr), &fVal, sizeof(fVal), NULL))
 			{
 				ATLASSERT(0 && "Failed to write Roll value.");
+				return;
 			}
 		}
 
@@ -272,10 +297,10 @@ void CMemTDriver::Run()
 		ULONG nCurTime = GetTickCount();
 		ULONG nElapsed = nCurTime - nPrevTime;
 
-		if (nElapsed < TRK_SLEEP_TIME)
+		if (nElapsed < MAX_SLEEP_TIME)
 		{
-			Sleep(TRK_SLEEP_TIME - nElapsed);
-			nElapsed += TRK_SLEEP_TIME;
+			Sleep(MAX_SLEEP_TIME - nElapsed);
+			nElapsed += MAX_SLEEP_TIME;
 		}
 		else
 		{
@@ -291,17 +316,19 @@ HRESULT CMemTDriver::GetOrientationPointer(HANDLE hProcess, const OFFSETLIST &ls
 
 	if (lstOffset.size())
 	{
-		// Get first offset
+		// Get first offset (this is applied directly to the base addr)
 		OFFSETLIST::const_iterator it = lstOffset.cbegin();
 		nAddress += (*it);
 		++it;
 
-		// Loop through offsets and dereference each pointer level
+		// Loop through offsets and dereference each pointer level:
+		// If an offset exists, dereference the current address and apply offset to the dereferenced value.
+		// Offsets of 0 mean that the pointer should be dereferenced without applying an offset to the resulting addr.
 		while (it != lstOffset.cend())
 		{
 			DWORD nNextAddr = 0;
 
-			// Read memory to get new pointer address
+			// Read memory to get the referenced pointer address
 			if (0 == ReadProcessMemory(hProcess, (LPVOID)(nAddress), &nNextAddr, sizeof(nNextAddr), NULL))
 			{
 				ATLASSERT(nNextAddr);

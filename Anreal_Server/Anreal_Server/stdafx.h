@@ -34,17 +34,17 @@ extern CAppModule _Module;
 #define CONFIG_PATH _T("\\anreal_server.cfg")	// Path to Anreal config file
 #define TRK_BUF_SIZE 512						// Tracker receive buffer size
 
+#define TIME_VAL_SEC 1000						// Time value for a second (1000 ms for GetTickCount)
 #define TRK_UPDATE_RATE 60						// Desired tracker update/refresh rate in Hz
 #define CPT_UPDATE_RATE 60						// Desired capture update/refresh rate in Hz
 
-#define TRK_SLEEP_TIME (1000/TRK_UPDATE_RATE)	// Max sleep time for tracker
-#define CPT_SLEEP_TIME (1000/CPT_UPDATE_RATE)	// Max sleep time for capture
+#define RAD_TO_DEG 57.29578f					// (180 / PI) to convert from radians to degrees
 
 // Defaults
 #define DEFAULT_PROFILE_PATH _T("\\Profiles\\")	// Path to Anreal profiles
 #define DEFAULT_TRACKER_PORT 5250				// Default head tracker receive port
 #define DEFAULT_CAPTURE_PORT 5251				// Default screen capture transmit port
-#define DEFAULT_COMPRESS_LVL 80					// Default image compression level
+#define DEFAULT_COMPRESS_LVL 50					// Default image compression level
 
 
 #if defined _M_IX86

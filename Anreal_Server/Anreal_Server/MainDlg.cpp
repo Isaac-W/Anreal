@@ -109,9 +109,10 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	return 0;
 }
 
-LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CMainDlg::OnStart(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	// TODO: Perform test -- for Skyrim!
+	/////////////////////////////////////////////////////////////////////////
+	// TODO: Perform test -- pointer values are for Skyrim!
 	static bool bRunning = false;
 
 	if (!bRunning)
@@ -120,10 +121,10 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 		TMemParam trkParam;
 
 		trkParam.strProcess = _T("TESV.EXE");
-		trkParam.strModule = _T("TESV.EXE");
+		trkParam.strModule = _T("TESV.EXE");	// base_addr
 
-		trkParam.lstYaw.push_back(0x01739ac4);
-		trkParam.lstYaw.push_back(0x30);
+		trkParam.lstYaw.push_back(0x01739ac4);	// base_addr + offset
+		trkParam.lstYaw.push_back(0x30);		// (*prev_addr) + offset
 
 		trkParam.lstPitch.push_back(0x01739ac4);
 		trkParam.lstPitch.push_back(0x28);
@@ -151,7 +152,7 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 		bRunning = true;
 	}
 	// TODO: End test
-
+	/////////////////////////////////////////////////////////////////////////
 
 	// Toggle thread start/stop-- use transmit helper class (holds settings and thread wrapper)
 
@@ -307,7 +308,7 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	}
 
 	// Compression level
-	nRet = GetPrivateProfileString(_T("Device"), _T("compression"), _T("80"), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("compression"), _T("50"), szBuf, _MAX_PATH, strPath);
 
 	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
 	{

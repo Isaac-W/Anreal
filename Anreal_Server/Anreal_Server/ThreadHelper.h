@@ -82,7 +82,7 @@ private:
 // Class that encapsulates a thread of execution. Inherits from CRunnable.
 // CThread may be extended to provide a local Run() implementation.
 class CThread :
-	public CRunnable
+	protected CRunnable
 {
 public:
 	// Default constructor. Sets CRunnable pointer to the current instance.

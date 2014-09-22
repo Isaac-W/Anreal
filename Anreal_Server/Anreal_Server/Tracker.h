@@ -20,6 +20,7 @@ struct TOrientation
 };
 
 // Tracker linear transformation struct.
+// Describes how the individual angles should be scaled and shifted per game.
 struct TTransform
 {
 	TTransform() :

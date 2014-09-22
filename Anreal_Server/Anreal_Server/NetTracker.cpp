@@ -53,7 +53,7 @@ HRESULT CNetTracker::GetOrientation(TOrientation *pTrkOrientation)
 	SOCKADDR_IN addrSender;
 	int nAddrSenderSize = sizeof(addrSender);
 
-	// Blocks if no incoming data
+	// Blocks if no incoming data (TODO: Set timeout so that we can force stop the thread!)
 	int nBytesReceived = recvfrom(	m_hSocket,
 									pBuf, TRK_BUF_SIZE, 0,
 									(SOCKADDR *)(&addrSender), &nAddrSenderSize);

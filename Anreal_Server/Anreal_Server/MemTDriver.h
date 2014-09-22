@@ -14,25 +14,31 @@
 /////////////////////////////////////////////////////////////////////////////
 // Memory tracker helpers
 
-typedef std::list<DWORD> OFFSETLIST;
+typedef std::list<DWORD> OFFSETLIST; // List containing pointer offsets
 
+// Struct containing parameters for the memory tracker.
+// Describes the memory locations of the camera angles, and the storage format (rad/deg).
 struct TMemParam
 {
 	TMemParam() :
-		strProcess(_T("")),
-		strModule(_T("")),
 		bDisableYaw(false),
 		bDisablePitch(false),
-		bDisableRoll(false)
+		bDisableRoll(false),
+		strProcess(_T("")),
+		strModule(_T(""))
 	{
 	}
 
+	bool bDisableYaw;		// Disable yaw tracking		
+	bool bDisablePitch;		// Disable pitch tracking
+	bool bDisableRoll;		// Disable roll tracking
+
+	bool bYawToDeg;			// Yaw angle needs conversion to degrees
+	bool bPitchToDeg;		// Pitch angle needs conversion to degrees
+	bool bRollToDeg;		// Roll angle needs conversion to degrees
+
 	CString strProcess;		// Name of process
 	CString strModule;		// Name of base address module
-
-	bool bDisableYaw;		
-	bool bDisablePitch;		
-	bool bDisableRoll;		
 
 	OFFSETLIST lstYaw;		// List of pointer offsets for yaw
 	OFFSETLIST lstPitch;	// List of pointer offsets for pitch
@@ -67,7 +73,7 @@ public:
 	virtual void Run();
 
 private:
-	// Loops through offsets and dereferences each pointer level to get a new address.
+	// Loops through offsets and dereferences each pointer level to get the referenced address.
 	HRESULT GetOrientationPointer(HANDLE hProcess, const OFFSETLIST &lstOffset, DWORD *pAddress);
 
 private:
