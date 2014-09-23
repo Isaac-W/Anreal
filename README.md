@@ -7,6 +7,8 @@ Anreal is designed as two separate applications: the server, which runs on a Win
 
 (Full instructions on how to use Anreal will be posted in the near future.)
 
+To see pictures of me demonstrating Anreal at Seattle Pacific University's Erickson Research Conference, visit http://isaac-w.github.io/Anreal
+
 ======
 
 This repository contains the source code for the server application. For the Android client app, go here: https://github.com/Isaac-W/Anreal-Client
