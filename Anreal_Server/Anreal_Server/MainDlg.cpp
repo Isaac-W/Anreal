@@ -11,7 +11,7 @@
 
 #include "Tracker.h"
 #include "NetTracker.h"
-#include "MemTDriver.h"
+#include "MemTrkDriver.h"
 
 CMainDlg::CMainDlg() :
 	m_hTitleFont(NULL),
@@ -118,7 +118,7 @@ LRESULT CMainDlg::OnStart(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 	if (!bRunning)
 	{
 		// Init tracker parameters
-		TMemParam trkParam;
+		TrkMemParam trkParam;
 
 		trkParam.strProcess = _T("TESV.EXE");
 		trkParam.strModule = _T("TESV.EXE");	// base_addr
@@ -134,7 +134,7 @@ LRESULT CMainDlg::OnStart(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 		trkParam.lstRoll.push_back(0x32);
 
 		// Init transformation values
-		TTransform trkTransform;
+		TrkTransform trkTransform;
 
 		trkTransform.fYawMult = 1.0;
 		trkTransform.fYawOffset = 180.0;
@@ -143,7 +143,7 @@ LRESULT CMainDlg::OnStart(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 		trkTransform.fPitchOffset = 90.0;
 
 		// Create once... todo: properly create and destroy when start/stop
-		m_pTracker = new CMemTDriver(m_nTrackerPort, trkParam, trkTransform);
+		m_pTracker = new CMemTrkDriver(m_nTrackerPort, trkParam, trkTransform);
 		m_pTrackThread = new CThread(m_pTracker);
 
 		// Start

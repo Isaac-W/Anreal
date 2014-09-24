@@ -18,9 +18,9 @@ typedef std::list<DWORD> OFFSETLIST; // List containing pointer offsets
 
 // Struct containing parameters for the memory tracker.
 // Describes the memory locations of the camera angles, and the storage format (rad/deg).
-struct TMemParam
+struct TrkMemParam
 {
-	TMemParam() :
+	TrkMemParam() :
 		bDisableYaw(false),
 		bDisablePitch(false),
 		bDisableRoll(false),
@@ -46,28 +46,28 @@ struct TMemParam
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// CMemTDriver
+// CMemTrkDriver
 
 // Class that uses memory injection to provide in-game head tracking.
 // The application must have sufficient admin/debug privileges in order to use.
-class CMemTDriver :
+class CMemTrkDriver :
 	public CRunnable
 {
 public:
 	// Constructor. Initializes portnum and the pointer offset lists.
-	CMemTDriver(USHORT nPortNum, const TMemParam &trkParam);
+	CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam);
 
 	// Constructor. Initializes portnum and the specified orientation transformations.
-	CMemTDriver(USHORT nPortNum, const TMemParam &trkParam, const TTransform &trkTransform);
+	CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam, const TrkTransform &trkTransform);
 
 	// Destructor.
-	virtual ~CMemTDriver();
+	virtual ~CMemTrkDriver();
 
 	// Gets the transformation values.
-	HRESULT GetTransformation(TTransform *pTrkTransform);
+	HRESULT GetTransformation(TrkTransform *pTrkTransform);
 
 	// Sets the transformation values.
-	HRESULT SetTransformation(const TTransform &trkTransform);
+	HRESULT SetTransformation(const TrkTransform &trkTransform);
 
 	// Starts the tracker process.
 	virtual void Run();
@@ -78,8 +78,8 @@ private:
 
 private:
 	CTracker *m_pTracker;			// Pointer to member tracker
-	TTransform m_trkTransform;		// Tracker transformation values
+	TrkTransform m_trkTransform;		// Tracker transformation values
 
-	TMemParam m_trkParam;			// Mem tracker parameters
+	TrkMemParam m_trkParam;			// Mem tracker parameters
 };
 

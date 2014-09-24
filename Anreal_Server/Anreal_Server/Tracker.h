@@ -5,9 +5,9 @@
 
 // Tracker orientation struct. Angles are represented in radians.
 // Tracker angles sent over the network should follow the same data format.
-struct TOrientation
+struct TrkOrientation
 {
-	TOrientation() :
+	TrkOrientation() :
 		fYaw(0.0),
 		fPitch(0.0),
 		fRoll(0.0)
@@ -21,9 +21,9 @@ struct TOrientation
 
 // Tracker linear transformation struct.
 // Describes how the individual angles should be scaled and shifted per game.
-struct TTransform
+struct TrkTransform
 {
-	TTransform() :
+	TrkTransform() :
 		fYawMult(1.0),
 		fPitchMult(1.0),
 		fRollMult(1.0),
@@ -62,6 +62,6 @@ public:
 	}
 
 	// Gets the tracker orientation.
-	virtual HRESULT GetOrientation(TOrientation *pTrkOrientation) = 0;
+	virtual HRESULT GetOrientation(TrkOrientation *pTrkOrientation) = 0;
 };
 

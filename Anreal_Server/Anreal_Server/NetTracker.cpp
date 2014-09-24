@@ -35,7 +35,7 @@ CNetTracker::~CNetTracker()
 	CloseWinsock();
 }
 
-HRESULT CNetTracker::GetOrientation(TOrientation *pTrkOrientation)
+HRESULT CNetTracker::GetOrientation(TrkOrientation *pTrkOrientation)
 {
 	if (!pTrkOrientation)
 	{
@@ -81,7 +81,7 @@ HRESULT CNetTracker::GetOrientation(TOrientation *pTrkOrientation)
 	memcpy(&(pTrkOrientation->fRoll), &(pBuf[nCurByte]), sizeof(pTrkOrientation->fRoll));
 	nCurByte += sizeof(pTrkOrientation->fRoll);
 
-	ATLASSERT(sizeof(TOrientation) >= nCurByte);
+	ATLASSERT(sizeof(TrkOrientation) >= nCurByte);
 
 	return S_OK;
 }

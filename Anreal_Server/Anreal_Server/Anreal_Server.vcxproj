@@ -114,7 +114,7 @@
     <ClCompile Include="ConfigDlg.cpp" />
     <ClCompile Include="MainDlg.cpp" />
     <ClCompile Include="ManageDlg.cpp" />
-    <ClCompile Include="MemTDriver.cpp" />
+    <ClCompile Include="MemTrkDriver.cpp" />
     <ClCompile Include="NetTracker.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -128,7 +128,7 @@
     <ClInclude Include="ConfigDlg.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="ManageDlg.h" />
-    <ClInclude Include="MemTDriver.h" />
+    <ClInclude Include="MemTrkDriver.h" />
     <ClInclude Include="NetTracker.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

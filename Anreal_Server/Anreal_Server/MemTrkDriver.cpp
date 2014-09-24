@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "MemTDriver.h"
+#include "MemTrkDriver.h"
 
-CMemTDriver::CMemTDriver(USHORT nPortNum, const TMemParam &trkParam) :
+CMemTrkDriver::CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam) :
 	m_trkTransform()
 {
 	// Create new network tracker
@@ -11,7 +11,7 @@ CMemTDriver::CMemTDriver(USHORT nPortNum, const TMemParam &trkParam) :
 	m_trkParam = trkParam;
 }
 
-CMemTDriver::CMemTDriver(USHORT nPortNum, const TMemParam &trkParam, const TTransform &trkTransform)
+CMemTrkDriver::CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam, const TrkTransform &trkTransform)
 {
 	// Create new network tracker
 	m_pTracker = new CNetTracker(nPortNum);
@@ -23,7 +23,7 @@ CMemTDriver::CMemTDriver(USHORT nPortNum, const TMemParam &trkParam, const TTran
 	m_trkTransform = trkTransform;
 }
 
-CMemTDriver::~CMemTDriver()
+CMemTrkDriver::~CMemTrkDriver()
 {
 	// Delete tracker
 	if (m_pTracker)
@@ -33,7 +33,7 @@ CMemTDriver::~CMemTDriver()
 	}
 }
 
-HRESULT CMemTDriver::GetTransformation(TTransform *pTrkTransform)
+HRESULT CMemTrkDriver::GetTransformation(TrkTransform *pTrkTransform)
 {
 	if (!pTrkTransform)
 	{
@@ -45,14 +45,14 @@ HRESULT CMemTDriver::GetTransformation(TTransform *pTrkTransform)
 	return S_OK;
 }
 
-HRESULT CMemTDriver::SetTransformation(const TTransform &trkTransform)
+HRESULT CMemTrkDriver::SetTransformation(const TrkTransform &trkTransform)
 {
 	m_trkTransform = trkTransform;
 
 	return S_OK;
 }
 
-void CMemTDriver::Run()
+void CMemTrkDriver::Run()
 {
 	//
 	//	Get process handle
@@ -211,7 +211,7 @@ void CMemTDriver::Run()
 	//
 
 	HRESULT res;
-	TOrientation trkOrientation;
+	TrkOrientation trkOrientation;
 	ULONG nPrevTime = GetTickCount();
 
 	const ULONG MAX_SLEEP_TIME = TIME_VAL_SEC / TRK_UPDATE_RATE; // Determine sleep time based on desired rate
@@ -310,7 +310,7 @@ void CMemTDriver::Run()
 	}
 }
 
-HRESULT CMemTDriver::GetOrientationPointer(HANDLE hProcess, const OFFSETLIST &lstOffset, DWORD *pAddress)
+HRESULT CMemTrkDriver::GetOrientationPointer(HANDLE hProcess, const OFFSETLIST &lstOffset, DWORD *pAddress)
 {
 	DWORD nAddress = (*pAddress);
 
