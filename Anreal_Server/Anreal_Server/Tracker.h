@@ -44,6 +44,21 @@ struct TrkTransform
 	float fRollOffset;
 };
 
+// Tracker parameter struct. Provides a minimum set of parameters a tracker must utilize.
+struct TrkParam
+{
+	TrkParam() :
+		bDisableYaw(false),
+		bDisablePitch(false),
+		bDisableRoll(false)
+	{
+	}
+
+	bool bDisableYaw;		// Disable yaw tracking		
+	bool bDisablePitch;		// Disable pitch tracking
+	bool bDisableRoll;		// Disable roll tracking
+};
+
 /////////////////////////////////////////////////////////////////////////////
 // CTracker
 

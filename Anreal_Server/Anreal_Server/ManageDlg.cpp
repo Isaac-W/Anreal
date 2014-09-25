@@ -52,3 +52,9 @@ LRESULT CManageDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, B
 	EndDialog(wID);
 	return 0;
 }
+
+LRESULT CManageDlg::OnApply(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	//Apply();
+	return 0;
+}

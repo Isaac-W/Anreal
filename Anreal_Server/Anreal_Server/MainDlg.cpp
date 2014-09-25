@@ -9,6 +9,8 @@
 #include "ConfigDlg.h"
 #include "ManageDlg.h"
 
+#include "Profile.h"
+
 #include "Tracker.h"
 #include "NetTracker.h"
 #include "MemTrkDriver.h"
@@ -129,7 +131,6 @@ LRESULT CMainDlg::OnStart(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 		trkParam.lstPitch.push_back(0x01739ac4);
 		trkParam.lstPitch.push_back(0x28);
 
-		trkParam.bDisableRoll = true;
 		trkParam.lstRoll.push_back(0x01739ac4);
 		trkParam.lstRoll.push_back(0x32);
 

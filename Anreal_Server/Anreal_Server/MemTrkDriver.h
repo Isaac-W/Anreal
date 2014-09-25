@@ -18,20 +18,14 @@ typedef std::list<DWORD> OFFSETLIST; // List containing pointer offsets
 
 // Struct containing parameters for the memory tracker.
 // Describes the memory locations of the camera angles, and the storage format (rad/deg).
-struct TrkMemParam
+struct TrkMemParam :
+	public TrkParam
 {
 	TrkMemParam() :
-		bDisableYaw(false),
-		bDisablePitch(false),
-		bDisableRoll(false),
 		strProcess(_T("")),
 		strModule(_T(""))
 	{
 	}
-
-	bool bDisableYaw;		// Disable yaw tracking		
-	bool bDisablePitch;		// Disable pitch tracking
-	bool bDisableRoll;		// Disable roll tracking
 
 	bool bYawToDeg;			// Yaw angle needs conversion to degrees
 	bool bPitchToDeg;		// Pitch angle needs conversion to degrees

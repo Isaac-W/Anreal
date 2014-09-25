@@ -80,6 +80,9 @@
     <ClInclude Include="MemTrkDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Profile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Anreal_Server.rc">
