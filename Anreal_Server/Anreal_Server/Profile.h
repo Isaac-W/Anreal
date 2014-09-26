@@ -53,10 +53,10 @@ public:
 
 		if (nRet)
 		{
-			int iTemp = _ttoi(szBuf);
-			if (!GetLastError() && (0 <= iTemp) && (iTemp < CT_COUNT))
+			int nTemp = _ttoi(szBuf);
+			if (!GetLastError() && (0 <= nTemp) && (nTemp < CT_COUNT))
 			{
-				m_cptSelection = (CaptureType)(iTemp);
+				m_cptSelection = (CaptureType)(nTemp);
 			}
 		}
 
@@ -78,10 +78,10 @@ public:
 
 		if (nRet)
 		{
-			int iTemp = _ttoi(szBuf);
-			if (!GetLastError() && (0 <= iTemp))
+			int nTemp = _ttoi(szBuf);
+			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.left = iTemp;
+				m_rcCapture.left = nTemp;
 			}
 		}
 
@@ -90,10 +90,10 @@ public:
 
 		if (nRet)
 		{
-			int iTemp = _ttoi(szBuf);
-			if (!GetLastError() && (0 <= iTemp))
+			int nTemp = _ttoi(szBuf);
+			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.top = iTemp;
+				m_rcCapture.top = nTemp;
 			}
 		}
 
@@ -102,10 +102,10 @@ public:
 
 		if (nRet)
 		{
-			int iTemp = _ttoi(szBuf);
-			if (!GetLastError() && (0 <= iTemp))
+			int nTemp = _ttoi(szBuf);
+			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.right = m_rcCapture.left + iTemp;
+				m_rcCapture.right = m_rcCapture.left + nTemp;
 			}
 		}
 
@@ -114,10 +114,10 @@ public:
 
 		if (nRet)
 		{
-			int iTemp = _ttoi(szBuf);
-			if (!GetLastError() && (0 <= iTemp))
+			int nTemp = _ttoi(szBuf);
+			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.bottom = m_rcCapture.top + iTemp;
+				m_rcCapture.bottom = m_rcCapture.top + nTemp;
 			}
 		}
 
@@ -130,10 +130,10 @@ public:
 
 		if (nRet)
 		{
-			int iTemp = _ttoi(szBuf);
-			if (!GetLastError() && (0 <= iTemp) && (iTemp < TT_COUNT))
+			int nTemp = _ttoi(szBuf);
+			if (!GetLastError() && (0 <= nTemp) && (nTemp < TT_COUNT))
 			{
-				m_trkSelection = (TrackerType)(iTemp);
+				m_trkSelection = (TrackerType)(nTemp);
 			}
 		}
 
@@ -313,10 +313,10 @@ public:
 
 				if (nRet)
 				{
-					int iTemp = _ttoi(szBuf);
+					int nTemp = _ttoi(szBuf);
 					if (!GetLastError())
 					{
-						m_trkMemParam.lstYaw.push_back(iTemp);
+						m_trkMemParam.lstYaw.push_back(nTemp);
 					}
 				}
 			}
@@ -344,10 +344,10 @@ public:
 
 				if (nRet)
 				{
-					int iTemp = _ttoi(szBuf);
+					int nTemp = _ttoi(szBuf);
 					if (!GetLastError())
 					{
-						m_trkMemParam.lstPitch.push_back(iTemp);
+						m_trkMemParam.lstPitch.push_back(nTemp);
 					}
 				}
 			}
@@ -375,10 +375,10 @@ public:
 
 				if (nRet)
 				{
-					int iTemp = _ttoi(szBuf);
+					int nTemp = _ttoi(szBuf);
 					if (!GetLastError())
 					{
-						m_trkMemParam.lstRoll.push_back(iTemp);
+						m_trkMemParam.lstRoll.push_back(nTemp);
 					}
 				}
 			}

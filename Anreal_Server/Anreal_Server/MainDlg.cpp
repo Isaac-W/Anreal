@@ -290,10 +290,10 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 
 	if (nRet)
 	{
-		int iTemp = _ttoi(szBuf);
-		if (!GetLastError() && (0 < iTemp))
+		int nTemp = _ttoi(szBuf);
+		if (!GetLastError() && (0 < nTemp))
 		{
-			m_nTrackerPort = iTemp;
+			m_nTrackerPort = nTemp;
 		}
 	}
 
@@ -302,10 +302,10 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 
 	if (nRet)
 	{
-		int iTemp = _ttoi(szBuf);
-		if (!GetLastError() && (0 < iTemp))
+		int nTemp = _ttoi(szBuf);
+		if (!GetLastError() && (0 < nTemp))
 		{
-			m_nDisplayPort = iTemp;
+			m_nDisplayPort = nTemp;
 		}
 	}
 
@@ -314,10 +314,10 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 
 	if (nRet)
 	{
-		int iTemp = _ttoi(szBuf);
-		if (!GetLastError() && (0 <= iTemp))
+		int nTemp = _ttoi(szBuf);
+		if (!GetLastError() && (0 <= nTemp))
 		{
-			m_nCompressionLvl = iTemp;
+			m_nCompressionLvl = nTemp;
 		}
 	}
 

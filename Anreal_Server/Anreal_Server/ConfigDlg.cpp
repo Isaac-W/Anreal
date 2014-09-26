@@ -103,12 +103,12 @@ LRESULT CConfigDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
 
 	{
 		BOOL bSuccess = FALSE;
-		int iTemp = GetDlgItemInt(IDC_TRACKER_PORT, &bSuccess, FALSE);
+		int nTemp = GetDlgItemInt(IDC_TRACKER_PORT, &bSuccess, FALSE);
 		ATLASSERT(bSuccess);
 
-		if ((0 < iTemp) && (iTemp <= 65535))
+		if ((0 < nTemp) && (nTemp <= 65535))
 		{
-			m_nTrackerPort = iTemp;
+			m_nTrackerPort = nTemp;
 		}
 		else
 		{
@@ -123,14 +123,14 @@ LRESULT CConfigDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
 
 	{
 		BOOL bSuccess = FALSE;
-		int iTemp = GetDlgItemInt(IDC_CAPTURE_PORT, &bSuccess, FALSE);
+		int nTemp = GetDlgItemInt(IDC_CAPTURE_PORT, &bSuccess, FALSE);
 		ATLASSERT(bSuccess);
 
-		if ((0 < iTemp) && (iTemp <= 65535))
+		if ((0 < nTemp) && (nTemp <= 65535))
 		{
-			if (m_nTrackerPort != iTemp)
+			if (m_nTrackerPort != nTemp)
 			{
-				m_nDisplayPort = iTemp;
+				m_nDisplayPort = nTemp;
 			}
 			else
 			{
@@ -151,12 +151,12 @@ LRESULT CConfigDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
 
 	{
 		BOOL bSuccess = FALSE;
-		int iTemp = GetDlgItemInt(IDC_COMPRESSION_LVL, &bSuccess, FALSE);
+		int nTemp = GetDlgItemInt(IDC_COMPRESSION_LVL, &bSuccess, FALSE);
 		ATLASSERT(bSuccess);
 
-		if ((0 <= iTemp) && (iTemp <= 100))
+		if ((0 <= nTemp) && (nTemp <= 100))
 		{
-			m_nCompressionLvl = iTemp;
+			m_nCompressionLvl = nTemp;
 		}
 		else
 		{
