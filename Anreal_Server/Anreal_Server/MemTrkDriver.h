@@ -14,7 +14,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // Memory tracker helpers
 
-typedef std::list<DWORD> OFFSETLIST; // List containing pointer offsets
+typedef std::list<int> OFFSETLIST; // List containing pointer offsets
 
 // Struct containing parameters for the memory tracker.
 // Describes the memory locations of the camera angles, and the storage format (rad/deg).

@@ -266,16 +266,17 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	TCHAR szBuf[_MAX_PATH]; // Temporary buffer for reading
 	DWORD nRet = 0;
 
-	GetLastError(); // Discard current error
+	// Clear last error
+	GetLastError();
 
 	//
 	//	Application settings
 	//
 
 	// Profile path
-	nRet = GetPrivateProfileString(_T("Application"), _T("profile_path"), _T(""), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Application"), _T("profile_path"), NULL, szBuf, _MAX_PATH, strPath);
 
-	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet)
 	{
 		m_strProfilePath = szBuf;
 	}
@@ -285,9 +286,9 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	//
 
 	// Tracker port
-	nRet = GetPrivateProfileString(_T("Device"), _T("tracker_port"), _T("5250"), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("tracker_port"), NULL, szBuf, _MAX_PATH, strPath);
 
-	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet)
 	{
 		int iTemp = _ttoi(szBuf);
 		if (!GetLastError() && (0 < iTemp))
@@ -297,9 +298,9 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	}
 
 	// Display port
-	nRet = GetPrivateProfileString(_T("Device"), _T("display_port"), _T("5251"), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("display_port"), NULL, szBuf, _MAX_PATH, strPath);
 
-	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet)
 	{
 		int iTemp = _ttoi(szBuf);
 		if (!GetLastError() && (0 < iTemp))
@@ -309,9 +310,9 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	}
 
 	// Compression level
-	nRet = GetPrivateProfileString(_T("Device"), _T("compression"), _T("50"), szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("compression"), NULL, szBuf, _MAX_PATH, strPath);
 
-	if (nRet && (ERROR_FILE_NOT_FOUND != GetLastError()))
+	if (nRet)
 	{
 		int iTemp = _ttoi(szBuf);
 		if (!GetLastError() && (0 <= iTemp))
