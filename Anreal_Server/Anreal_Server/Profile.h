@@ -5,6 +5,8 @@
 #include "Tracker.h"
 #include "MemTrkDriver.h"
 
+// Class that represents an Anreal game profile.
+// Contains all user-configurable options for all capture and tracker types.
 class CProfile
 {
 public:
@@ -388,7 +390,197 @@ public:
 	// Saves the profile to the specified file.
 	void Save(CString strPath)
 	{
+		TCHAR szBuf[_MAX_PATH]; // Temporary buffer for writing
+		BOOL bSuccess = FALSE;
 
+		//
+		//	Profile
+		//
+
+		// Name
+		bSuccess = WritePrivateProfileString(_T("Profile"), _T("name"), m_strName, strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	Capture
+		//
+
+		// Capture type
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_cptSelection);
+		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_type"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Capture region selection
+		_stprintf_s(szBuf, _MAX_PATH, m_bCaptureRegion ? _T("true") : _T("false"));
+		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_region"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	Capture area
+		//
+
+		// Capture area X
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.left);
+		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_x"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Capture area Y
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.top);
+		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_y"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Capture area width
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.Width());
+		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_width"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Capture area height
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.Height());
+		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_height"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	Tracker
+		//
+
+		// Tracker type
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_trkSelection);
+		bSuccess = WritePrivateProfileString(_T("Tracker"), _T("tracker_type"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	TrkParam
+		//
+
+		// Disable yaw
+		_stprintf_s(szBuf, _MAX_PATH, m_trkParam.bDisableYaw ? _T("true") : _T("false"));
+		bSuccess = WritePrivateProfileString(_T("Tracker"), _T("disable_yaw"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Disable pitch
+		_stprintf_s(szBuf, _MAX_PATH, m_trkParam.bDisablePitch ? _T("true") : _T("false"));
+		bSuccess = WritePrivateProfileString(_T("Tracker"), _T("disable_pitch"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Disable roll
+		_stprintf_s(szBuf, _MAX_PATH, m_trkParam.bDisableRoll ? _T("true") : _T("false"));
+		bSuccess = WritePrivateProfileString(_T("Tracker"), _T("disable_roll"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	TrkTransform
+		//
+
+		// Yaw mult
+		_stprintf_s(szBuf, _MAX_PATH, _T("%8f"), m_trkTransform.fYawMult);
+		bSuccess = WritePrivateProfileString(_T("TrackerTransform"), _T("yaw_mult"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Pitch mult
+		_stprintf_s(szBuf, _MAX_PATH, _T("%8f"), m_trkTransform.fPitchMult);
+		bSuccess = WritePrivateProfileString(_T("TrackerTransform"), _T("pitch_mult"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Roll mult
+		_stprintf_s(szBuf, _MAX_PATH, _T("%8f"), m_trkTransform.fRollMult);
+		bSuccess = WritePrivateProfileString(_T("TrackerTransform"), _T("roll_mult"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Yaw offset
+		_stprintf_s(szBuf, _MAX_PATH, _T("%8f"), m_trkTransform.fYawOffset);
+		bSuccess = WritePrivateProfileString(_T("TrackerTransform"), _T("yaw_offset"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Pitch offset
+		_stprintf_s(szBuf, _MAX_PATH, _T("%8f"), m_trkTransform.fPitchOffset);
+		bSuccess = WritePrivateProfileString(_T("TrackerTransform"), _T("pitch_offset"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Roll offset
+		_stprintf_s(szBuf, _MAX_PATH, _T("%8f"), m_trkTransform.fRollOffset);
+		bSuccess = WritePrivateProfileString(_T("TrackerTransform"), _T("roll_offset"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	TrkMemParam
+		//
+
+		// Yaw to degrees
+		_stprintf_s(szBuf, _MAX_PATH, m_trkMemParam.bYawToDeg ? _T("true") : _T("false"));
+		bSuccess = WritePrivateProfileString(_T("MemTracker"), _T("yaw_to_deg"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Pitch to degrees
+		_stprintf_s(szBuf, _MAX_PATH, m_trkMemParam.bPitchToDeg ? _T("true") : _T("false"));
+		bSuccess = WritePrivateProfileString(_T("MemTracker"), _T("pitch_to_deg"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Roll to degrees
+		_stprintf_s(szBuf, _MAX_PATH, m_trkMemParam.bRollToDeg ? _T("true") : _T("false"));
+		bSuccess = WritePrivateProfileString(_T("MemTracker"), _T("roll_to_deg"), szBuf, strPath);
+		ATLASSERT(bSuccess);
+
+		// Process name
+		bSuccess = WritePrivateProfileString(_T("MemTracker"), _T("process_name"), m_trkMemParam.strProcess, strPath);
+		ATLASSERT(bSuccess);
+
+		// Module name
+		bSuccess = WritePrivateProfileString(_T("MemTracker"), _T("module_name"), m_trkMemParam.strModule, strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	MemTrackerYaw
+		//
+
+		// Yaw tracker pointers
+		UINT nOffset = 0;
+		for (OFFSETLIST::const_iterator it = m_trkMemParam.lstYaw.cbegin(); it != m_trkMemParam.lstYaw.cend(); ++it)
+		{
+			// Make offset name
+			CString strOffsetName;
+			strOffsetName.Format(_T("offset_%02u"), nOffset);
+			++nOffset; // Increment offset counter
+
+			_stprintf_s(szBuf, _MAX_PATH, _T("%d"), (*it));
+			bSuccess = WritePrivateProfileString(_T("MemTrackerYaw"), strOffsetName, szBuf, strPath);
+			ATLASSERT(bSuccess);
+		}
+
+		//
+		//	MemTrackerPitch
+		//
+
+		// Pitch tracker pointers
+		nOffset = 0;
+		for (OFFSETLIST::const_iterator it = m_trkMemParam.lstPitch.cbegin(); it != m_trkMemParam.lstPitch.cend(); ++it)
+		{
+			// Make offset name
+			CString strOffsetName;
+			strOffsetName.Format(_T("offset_%02u"), nOffset);
+			++nOffset; // Increment offset counter
+
+			_stprintf_s(szBuf, _MAX_PATH, _T("%d"), (*it));
+			bSuccess = WritePrivateProfileString(_T("MemTrackerPitch"), strOffsetName, szBuf, strPath);
+			ATLASSERT(bSuccess);
+		}
+
+		//
+		//	MemTrackerRoll
+		//
+
+		// Roll tracker pointers
+		nOffset = 0;
+		for (OFFSETLIST::const_iterator it = m_trkMemParam.lstRoll.cbegin(); it != m_trkMemParam.lstRoll.cend(); ++it)
+		{
+			// Make offset name
+			CString strOffsetName;
+			strOffsetName.Format(_T("offset_%02u"), nOffset);
+			++nOffset; // Increment offset counter
+
+			_stprintf_s(szBuf, _MAX_PATH, _T("%d"), (*it));
+			bSuccess = WritePrivateProfileString(_T("MemTrackerRoll"), strOffsetName, szBuf, strPath);
+			ATLASSERT(bSuccess);
+		}
 	}
 
 public:

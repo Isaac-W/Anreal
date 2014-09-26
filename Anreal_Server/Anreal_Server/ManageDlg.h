@@ -4,6 +4,10 @@
 
 #pragma once
 
+#include "Profile.h"
+
+// Dialog to manage a profile configuration. Member profile instance is used for initialization.
+// After the dialog is closed, calling function may copy settings from the member profile.
 class CManageDlg :
 	public CDialogImpl<CManageDlg>
 {
@@ -28,5 +32,7 @@ private:
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnApply(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-};
 
+public:
+	CProfile m_profileConfig;
+};

@@ -36,12 +36,14 @@ private:
 private:
 	void CloseDialog(int nVal);
 	
+	// Re-populates the profile list from the profile path.
 	void RefreshProfiles();
 
+	// Loads the Anreal configuration from file. strPath must be an absolute path.
 	HRESULT LoadConfig(CString strPath);
+
+	// Saves the Anreal configuration to file. strPath must be an absolute path.
 	HRESULT SaveConfig(CString strPath);
-	
-	HRESULT LoadProfile(CString strPath);
 
 private:
 	HFONT m_hTitleFont;

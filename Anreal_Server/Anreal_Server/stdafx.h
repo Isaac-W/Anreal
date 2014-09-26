@@ -39,8 +39,6 @@ extern CAppModule _Module;
 #define TRK_UPDATE_RATE 60						// Desired tracker update/refresh rate in Hz
 #define CPT_UPDATE_RATE 60						// Desired capture update/refresh rate in Hz
 
-#define MAX_PTR_LVLS 5
-
 #define RAD_TO_DEG 57.29578f					// (180 / PI) to convert from radians to degrees
 
 // Defaults

@@ -18,10 +18,12 @@ typedef std::list<int> OFFSETLIST; // List containing pointer offsets
 
 // Struct containing parameters for the memory tracker.
 // Describes the memory locations of the camera angles, and the storage format (rad/deg).
-struct TrkMemParam :
-	public TrkParam
+struct TrkMemParam
 {
 	TrkMemParam() :
+		bYawToDeg(false),
+		bPitchToDeg(false),
+		bRollToDeg(false),
 		strProcess(_T("")),
 		strModule(_T(""))
 	{
@@ -49,10 +51,10 @@ class CMemTrkDriver :
 {
 public:
 	// Constructor. Initializes portnum and the pointer offset lists.
-	CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam);
+	CMemTrkDriver(USHORT nPortNum, const TrkParam &trkParam, const TrkMemParam &trkMemParam);
 
 	// Constructor. Initializes portnum and the specified orientation transformations.
-	CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam, const TrkTransform &trkTransform);
+	CMemTrkDriver(USHORT nPortNum, const TrkParam &trkParam, const TrkMemParam &trkMemParam, const TrkTransform &trkTransform);
 
 	// Destructor.
 	virtual ~CMemTrkDriver();
@@ -71,9 +73,10 @@ private:
 	HRESULT GetOrientationPointer(HANDLE hProcess, const OFFSETLIST &lstOffset, DWORD *pAddress);
 
 private:
-	CTracker *m_pTracker;			// Pointer to member tracker
+	CTracker *m_pTracker;				// Pointer to member tracker
 	TrkTransform m_trkTransform;		// Tracker transformation values
 
-	TrkMemParam m_trkParam;			// Mem tracker parameters
+	TrkParam m_trkParam;				// Standard tracker parameters
+	TrkMemParam m_trkMemParam;			// Mem tracker parameters
 };
 

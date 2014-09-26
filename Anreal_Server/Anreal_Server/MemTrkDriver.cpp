@@ -1,23 +1,25 @@
 #include "stdafx.h"
 #include "MemTrkDriver.h"
 
-CMemTrkDriver::CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam) :
+CMemTrkDriver::CMemTrkDriver(USHORT nPortNum, const TrkParam &trkParam, const TrkMemParam &trkMemParam) :
 	m_trkTransform()
 {
 	// Create new network tracker
 	m_pTracker = new CNetTracker(nPortNum);
 
-	// Copy offset lists
+	// Copy parameters
 	m_trkParam = trkParam;
+	m_trkMemParam = trkMemParam;
 }
 
-CMemTrkDriver::CMemTrkDriver(USHORT nPortNum, const TrkMemParam &trkParam, const TrkTransform &trkTransform)
+CMemTrkDriver::CMemTrkDriver(USHORT nPortNum, const TrkParam &trkParam, const TrkMemParam &trkMemParam, const TrkTransform &trkTransform)
 {
 	// Create new network tracker
 	m_pTracker = new CNetTracker(nPortNum);
 
-	// Copy offset lists
+	// Copy parameters
 	m_trkParam = trkParam;
+	m_trkMemParam = trkMemParam;
 
 	// Copy transformation values
 	m_trkTransform = trkTransform;
@@ -89,7 +91,7 @@ void CMemTrkDriver::Run()
 	do
 	{
 		// Compare name
-		if (m_trkParam.strProcess.CompareNoCase(procEntry.szExeFile) == 0)
+		if (m_trkMemParam.strProcess.CompareNoCase(procEntry.szExeFile) == 0)
 		{
 			nProcessID = procEntry.th32ProcessID;
 			break;
@@ -123,7 +125,7 @@ void CMemTrkDriver::Run()
 
 	// Derive module address from process if name is not blank;
 	// if module name is blank; base addr is considered 0... use offsets only!
-	if (m_trkParam.strModule.GetLength())
+	if (m_trkMemParam.strModule.GetLength())
 	{
 		// Get snapshot of all processes in process
 		HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, nProcessID);
@@ -155,7 +157,7 @@ void CMemTrkDriver::Run()
 		// Enumerate modules
 		do
 		{
-			if (m_trkParam.strModule.CompareNoCase(moduleEntry.szModule) == 0)
+			if (m_trkMemParam.strModule.CompareNoCase(moduleEntry.szModule) == 0)
 			{
 				nBaseAddr = (DWORD)(moduleEntry.modBaseAddr);
 				bFoundModule = true;
@@ -186,7 +188,7 @@ void CMemTrkDriver::Run()
 	if (!m_trkParam.bDisableYaw)
 	{
 		nYawAddr += nBaseAddr;
-		GetOrientationPointer(hProcess, m_trkParam.lstYaw, &nYawAddr);
+		GetOrientationPointer(hProcess, m_trkMemParam.lstYaw, &nYawAddr);
 		ATLASSERT(nYawAddr);
 	}
 
@@ -194,7 +196,7 @@ void CMemTrkDriver::Run()
 	if (!m_trkParam.bDisablePitch)
 	{
 		nPitchAddr += nBaseAddr;
-		GetOrientationPointer(hProcess, m_trkParam.lstPitch, &nPitchAddr);
+		GetOrientationPointer(hProcess, m_trkMemParam.lstPitch, &nPitchAddr);
 		ATLASSERT(nPitchAddr);
 	}
 
@@ -202,7 +204,7 @@ void CMemTrkDriver::Run()
 	if (!m_trkParam.bDisableRoll)
 	{
 		nRollAddr += nBaseAddr;
-		GetOrientationPointer(hProcess, m_trkParam.lstRoll, &nRollAddr);
+		GetOrientationPointer(hProcess, m_trkMemParam.lstRoll, &nRollAddr);
 		ATLASSERT(nRollAddr);
 	}
 
@@ -237,7 +239,7 @@ void CMemTrkDriver::Run()
 			float fVal = trkOrientation.fYaw * m_trkTransform.fYawMult + m_trkTransform.fYawOffset;
 
 			// Convert radians to degrees
-			if (m_trkParam.bYawToDeg)
+			if (m_trkMemParam.bYawToDeg)
 			{
 				fVal *= RAD_TO_DEG;
 			}
@@ -257,7 +259,7 @@ void CMemTrkDriver::Run()
 			float fVal = trkOrientation.fPitch * m_trkTransform.fPitchMult + m_trkTransform.fPitchOffset;
 
 			// Convert radians to degrees
-			if (m_trkParam.bPitchToDeg)
+			if (m_trkMemParam.bPitchToDeg)
 			{
 				fVal *= RAD_TO_DEG;
 			}
@@ -277,7 +279,7 @@ void CMemTrkDriver::Run()
 			float fVal = trkOrientation.fRoll * m_trkTransform.fRollMult + m_trkTransform.fRollOffset;
 
 			// Convert radians to degrees
-			if (m_trkParam.bRollToDeg)
+			if (m_trkMemParam.bRollToDeg)
 			{
 				fVal *= RAD_TO_DEG;
 			}

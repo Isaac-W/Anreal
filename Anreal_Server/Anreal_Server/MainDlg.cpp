@@ -120,19 +120,24 @@ LRESULT CMainDlg::OnStart(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 	if (!bRunning)
 	{
 		// Init tracker parameters
-		TrkMemParam trkParam;
+		TrkParam trkParam;
 
-		trkParam.strProcess = _T("TESV.EXE");
-		trkParam.strModule = _T("TESV.EXE");	// base_addr
+		trkParam.bDisableRoll = true;
 
-		trkParam.lstYaw.push_back(0x01739ac4);	// base_addr + offset
-		trkParam.lstYaw.push_back(0x30);		// (*prev_addr) + offset
+		// Init mem tracker parameters
+		TrkMemParam trkMemParam;
 
-		trkParam.lstPitch.push_back(0x01739ac4);
-		trkParam.lstPitch.push_back(0x28);
+		trkMemParam.strProcess = _T("TESV.EXE");
+		trkMemParam.strModule = _T("TESV.EXE");	// base_addr
 
-		trkParam.lstRoll.push_back(0x01739ac4);
-		trkParam.lstRoll.push_back(0x32);
+		trkMemParam.lstYaw.push_back(0x01739ac4);	// base_addr + offset
+		trkMemParam.lstYaw.push_back(0x30);		// (*prev_addr) + offset
+
+		trkMemParam.lstPitch.push_back(0x01739ac4);
+		trkMemParam.lstPitch.push_back(0x28);
+
+		trkMemParam.lstRoll.push_back(0x01739ac4);
+		trkMemParam.lstRoll.push_back(0x32);
 
 		// Init transformation values
 		TrkTransform trkTransform;
@@ -144,7 +149,7 @@ LRESULT CMainDlg::OnStart(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 		trkTransform.fPitchOffset = 90.0;
 
 		// Create once... todo: properly create and destroy when start/stop
-		m_pTracker = new CMemTrkDriver(m_nTrackerPort, trkParam, trkTransform);
+		m_pTracker = new CMemTrkDriver(m_nTrackerPort, trkParam, trkMemParam, trkTransform);
 		m_pTrackThread = new CThread(m_pTracker);
 
 		// Start
@@ -357,9 +362,4 @@ HRESULT CMainDlg::SaveConfig(CString strPath)
 	ATLASSERT(bSuccess);
 
 	return S_OK;
-}
-
-HRESULT CMainDlg::LoadProfile(CString strPath)
-{
-	return E_NOTIMPL;
 }
