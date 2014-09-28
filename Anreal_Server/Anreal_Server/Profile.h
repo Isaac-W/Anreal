@@ -14,8 +14,6 @@ public:
 	CProfile() :
 		m_strName(_T("Profile")),
 		m_cptSelection(CT_DIRECTX),
-		m_bCaptureRegion(false),
-		m_rcCapture(0, 0, 0, 0),
 		m_trkSelection(TT_MEMORY)
 	{
 	}
@@ -68,7 +66,7 @@ public:
 		if (nRet)
 		{
 			CString strTemp = szBuf;
-			m_bCaptureRegion = strTemp.CompareNoCase(_T("true")) ? true : false;
+			m_cptParam.bCaptureRegion = strTemp.CompareNoCase(_T("true")) ? true : false;
 		}
 
 		//
@@ -83,7 +81,7 @@ public:
 			int nTemp = _ttoi(szBuf);
 			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.left = nTemp;
+				m_cptParam.rcCapture.left = nTemp;
 			}
 		}
 
@@ -95,7 +93,7 @@ public:
 			int nTemp = _ttoi(szBuf);
 			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.top = nTemp;
+				m_cptParam.rcCapture.top = nTemp;
 			}
 		}
 
@@ -107,7 +105,7 @@ public:
 			int nTemp = _ttoi(szBuf);
 			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.right = m_rcCapture.left + nTemp;
+				m_cptParam.rcCapture.right = m_cptParam.rcCapture.left + nTemp;
 			}
 		}
 
@@ -119,7 +117,7 @@ public:
 			int nTemp = _ttoi(szBuf);
 			if (!GetLastError() && (0 <= nTemp))
 			{
-				m_rcCapture.bottom = m_rcCapture.top + nTemp;
+				m_cptParam.rcCapture.bottom = m_cptParam.rcCapture.top + nTemp;
 			}
 		}
 
@@ -411,7 +409,7 @@ public:
 		ATLASSERT(bSuccess);
 
 		// Capture region selection
-		_stprintf_s(szBuf, _MAX_PATH, m_bCaptureRegion ? _T("true") : _T("false"));
+		_stprintf_s(szBuf, _MAX_PATH, m_cptParam.bCaptureRegion ? _T("true") : _T("false"));
 		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_region"), szBuf, strPath);
 		ATLASSERT(bSuccess);
 
@@ -420,22 +418,22 @@ public:
 		//
 
 		// Capture area X
-		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.left);
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_cptParam.rcCapture.left);
 		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_x"), szBuf, strPath);
 		ATLASSERT(bSuccess);
 
 		// Capture area Y
-		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.top);
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_cptParam.rcCapture.top);
 		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_y"), szBuf, strPath);
 		ATLASSERT(bSuccess);
 
 		// Capture area width
-		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.Width());
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_cptParam.rcCapture.Width());
 		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_width"), szBuf, strPath);
 		ATLASSERT(bSuccess);
 
 		// Capture area height
-		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_rcCapture.Height());
+		_stprintf_s(szBuf, _MAX_PATH, _T("%d"), m_cptParam.rcCapture.Height());
 		bSuccess = WritePrivateProfileString(_T("Capture"), _T("capture_height"), szBuf, strPath);
 		ATLASSERT(bSuccess);
 
@@ -604,8 +602,7 @@ public:
 
 	CaptureType m_cptSelection;
 
-	bool m_bCaptureRegion;
-	CRect m_rcCapture;
+	CptParam m_cptParam;
 
 	//
 	//	Tracker
