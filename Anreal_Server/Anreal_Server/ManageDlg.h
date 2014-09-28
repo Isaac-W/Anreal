@@ -15,6 +15,8 @@ public:
 	enum { IDD = IDD_MANAGEDLG };
 
 	CManageDlg();
+	// strPath must be an absolute path to the profile file.
+	CManageDlg(CString strPath);
 	~CManageDlg();
 
 	BEGIN_MSG_MAP(CManageDlg)
@@ -33,6 +35,13 @@ private:
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnApply(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
+private:
+	HRESULT Apply();
+
 public:
-	CProfile m_profileConfig;
+	CString m_strProfileName;
+
+private:
+	CString m_strPath;
+	CProfile m_prfConfig;
 };

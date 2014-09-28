@@ -32,7 +32,7 @@ public:
 		DWORD nRet = 0;
 
 		// Clear last error
-		GetLastError();
+		SetLastError(0);
 
 		//
 		//	Profile

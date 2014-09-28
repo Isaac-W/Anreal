@@ -33,6 +33,8 @@ extern CAppModule _Module;
 // Constants
 
 #define CONFIG_PATH _T("\\anreal_server.cfg")	// Path to Anreal config file
+#define PROFILE_EXT	_T(".anp")					// Profile file extension
+
 #define TRK_BUF_SIZE 512						// Tracker receive buffer size
 
 #define TIME_VAL_SEC 1000						// Time value for a second (1000 ms for GetTickCount)

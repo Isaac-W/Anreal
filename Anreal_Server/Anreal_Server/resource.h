@@ -3,7 +3,6 @@
 // Used by Anreal_Server.rc
 //
 #define IDC_CONFIG                      3
-#define IDCANCEL2                       3
 #define IDAPPLY                         3
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128

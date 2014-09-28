@@ -17,6 +17,9 @@
 
 CMainDlg::CMainDlg() :
 	m_hTitleFont(NULL),
+	m_strAppPath(_T("")),
+	m_strConfigPath(_T("")),
+	m_strProfilePath(_T("")),
 	m_nTrackerPort(DEFAULT_TRACKER_PORT),
 	m_nDisplayPort(DEFAULT_CAPTURE_PORT),
 	m_nCompressionLvl(DEFAULT_COMPRESS_LVL)
@@ -49,7 +52,6 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	//	Set font
 	//
 
-	// Title (TODO: Use CreatePointFont?)
 	m_hTitleFont = CreateFont(	48, 0,
 								0, 0,
 								FW_NORMAL,
@@ -62,6 +64,13 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	ATLASSERT(m_hTitleFont);
 	GetDlgItem(IDC_TITLE).SetFont(m_hTitleFont);
 	
+	//
+	//	Attach dialog items
+	//
+	
+	HWND hwndProfiles = GetDlgItem(IDC_PROFILELIST);
+	m_cboProfiles.Attach(hwndProfiles);
+
 	//
 	//	Init paths
 	//
@@ -211,37 +220,96 @@ LRESULT CMainDlg::OnConfig(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 	return 0;
 }
 
-LRESULT CMainDlg::OnManageProfiles(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CMainDlg::OnAddProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	//
-	//	Get profile name
-	//
-
-	// TODO: Store profile name/path in string
-	
-	//
-	//	Show Manage Profiles dialog
+	//	Show profile configuration dialog
 	//
 
 	CManageDlg dlg;
 
-	// Init settings
-	// TODO
-
 	// Show dialog
-	dlg.DoModal();
+	int nRet = dlg.DoModal();
 
 	//
-	//	Update changes
+	//	Update profile list
 	//
 
 	RefreshProfiles();
 
 	//
-	//	Select previous profile
+	//	Select profile
 	//
 
-	// TODO: Use name to select profile
+	m_cboProfiles.SelectString(-1, dlg.m_strProfileName);
+
+	return 0;
+}
+
+LRESULT CMainDlg::OnDeleteProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	// TODO: Delete profile
+
+	//
+	//	Update profile list
+	//
+
+	RefreshProfiles();
+
+	//
+	//	Select first profile
+	//
+
+	m_cboProfiles.SetCurSel(0);
+
+	return 0;
+}
+
+LRESULT CMainDlg::OnConfigProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	int nCurSel = m_cboProfiles.GetCurSel();
+
+	if (nCurSel < 0)
+	{
+		ATLASSERT(0 <= nCurSel);
+		return 0;
+	}
+	
+	//
+	//	Get profile path
+	//
+
+	// Get profile path index
+	int nIndex = m_cboProfiles.GetItemData(nCurSel);
+	
+	if ((nIndex < 0) || ((int)m_lstProfilePaths.size() <= nIndex))
+	{
+		ATLASSERT((0 <= nIndex) && (nIndex < (int)m_lstProfilePaths.size()));
+		return 0;
+	}
+
+	CString strPath = m_lstProfilePaths[nIndex];
+
+	//
+	//	Show profile configuration dialog
+	//
+
+	CManageDlg dlg(strPath);
+
+	// Show dialog
+	int nRet = dlg.DoModal();
+
+	//
+	//	Update profile list
+	//
+
+	RefreshProfiles();
+
+	//
+	//	Select profile
+	//
+
+	m_cboProfiles.SelectString(-1, dlg.m_strProfileName);
 
 	return 0;
 }
@@ -262,8 +330,82 @@ void CMainDlg::CloseDialog(int nVal)
 
 void CMainDlg::RefreshProfiles()
 {
-	// TODO: Enumerate all profile files in profile path
-	// Read name of each profile and put into combobox
+	// Clear profile list
+	m_cboProfiles.ResetContent();
+	
+	// Clear profile path list
+	m_lstProfilePaths.clear();
+
+	// Clear last error
+	SetLastError(0);
+
+	// Make search path
+	CString strPath = m_strProfilePath;
+
+	if (strPath[strPath.GetLength() - 1] != '\\')
+	{
+		strPath.Append(_T("\\"));
+	}
+
+	strPath.Append(_T("*"));
+	strPath.Append(PROFILE_EXT);
+
+	// File entry for enumeration
+	WIN32_FIND_DATA fdCurFile;
+	ZeroMemory(&fdCurFile, sizeof(fdCurFile));
+
+	// Find the first file in the directory
+	HANDLE hFind = FindFirstFile(strPath, &fdCurFile);
+
+	if (INVALID_HANDLE_VALUE == hFind)
+	{
+		ATLASSERT(INVALID_HANDLE_VALUE != hFind);
+		return;
+	}
+
+	// Enumerate files
+	do
+	{
+		if (fdCurFile.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			// Skip if directory
+			continue;
+		}
+
+		CString strName = GetProfileName(fdCurFile.cFileName);
+
+		if (strName.GetLength())
+		{
+			// Add path to profile path list
+			int nListPos = m_lstProfilePaths.size();
+			m_lstProfilePaths.push_back(fdCurFile.cFileName);
+			
+			// Add profile to combobox
+			int index = m_cboProfiles.AddString(strName);
+			m_cboProfiles.SetItemData(index, nListPos);
+		}
+	}
+	while (FindNextFile(hFind, &fdCurFile));
+
+	m_cboProfiles.SetCurSel(0);
+
+	ATLASSERT(!GetLastError());
+	FindClose(hFind);
+}
+
+CString CMainDlg::GetProfileName(CString strPath)
+{
+	CString strName = _T("");
+	TCHAR szBuf[_MAX_PATH];
+
+	DWORD nRet = GetPrivateProfileString(_T("Profile"), _T("name"), NULL, szBuf, _MAX_PATH, strPath);
+
+	if (nRet)
+	{
+		strName = szBuf;
+	}
+
+	return strName;
 }
 
 HRESULT CMainDlg::LoadConfig(CString strPath)
@@ -272,7 +414,7 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	DWORD nRet = 0;
 
 	// Clear last error
-	GetLastError();
+	SetLastError(0);
 
 	//
 	//	Application settings
