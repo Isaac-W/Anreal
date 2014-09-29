@@ -75,8 +75,8 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	//	Init paths
 	//
 
-	TCHAR szBuf[_MAX_PATH];
-	GetModuleFileName(NULL, szBuf, _MAX_PATH); // Get the executable path
+	TCHAR szBuf[MAX_PATH];
+	GetModuleFileName(NULL, szBuf, MAX_PATH); // Get the executable path
 
 	CString strPath(szBuf);
 	strPath = strPath.Left(strPath.ReverseFind('\\')); // Get just the current directory
@@ -396,9 +396,9 @@ void CMainDlg::RefreshProfiles()
 CString CMainDlg::GetProfileName(CString strPath)
 {
 	CString strName = _T("");
-	TCHAR szBuf[_MAX_PATH];
+	TCHAR szBuf[MAX_PATH];
 
-	DWORD nRet = GetPrivateProfileString(_T("Profile"), _T("name"), NULL, szBuf, _MAX_PATH, strPath);
+	DWORD nRet = GetPrivateProfileString(_T("Profile"), _T("name"), NULL, szBuf, MAX_PATH, strPath);
 
 	if (nRet)
 	{
@@ -410,7 +410,7 @@ CString CMainDlg::GetProfileName(CString strPath)
 
 HRESULT CMainDlg::LoadConfig(CString strPath)
 {
-	TCHAR szBuf[_MAX_PATH]; // Temporary buffer for reading
+	TCHAR szBuf[MAX_PATH]; // Temporary buffer for reading
 	DWORD nRet = 0;
 
 	// Clear last error
@@ -421,7 +421,7 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	//
 
 	// Profile path
-	nRet = GetPrivateProfileString(_T("Application"), _T("profile_path"), NULL, szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Application"), _T("profile_path"), NULL, szBuf, MAX_PATH, strPath);
 
 	if (nRet)
 	{
@@ -433,7 +433,7 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	//
 
 	// Tracker port
-	nRet = GetPrivateProfileString(_T("Device"), _T("tracker_port"), NULL, szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("tracker_port"), NULL, szBuf, MAX_PATH, strPath);
 
 	if (nRet)
 	{
@@ -445,7 +445,7 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	}
 
 	// Display port
-	nRet = GetPrivateProfileString(_T("Device"), _T("display_port"), NULL, szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("display_port"), NULL, szBuf, MAX_PATH, strPath);
 
 	if (nRet)
 	{
@@ -457,7 +457,7 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 	}
 
 	// Compression level
-	nRet = GetPrivateProfileString(_T("Device"), _T("compression"), NULL, szBuf, _MAX_PATH, strPath);
+	nRet = GetPrivateProfileString(_T("Device"), _T("compression"), NULL, szBuf, MAX_PATH, strPath);
 
 	if (nRet)
 	{
@@ -473,7 +473,7 @@ HRESULT CMainDlg::LoadConfig(CString strPath)
 
 HRESULT CMainDlg::SaveConfig(CString strPath)
 {
-	TCHAR szBuf[_MAX_PATH]; // Temporary buffer for writing
+	TCHAR szBuf[MAX_PATH]; // Temporary buffer for writing
 	BOOL bSuccess = FALSE;
 
 	//
@@ -489,17 +489,17 @@ HRESULT CMainDlg::SaveConfig(CString strPath)
 	//
 
 	// Tracker port
-	_stprintf_s(szBuf, _MAX_PATH, _T("%u"), m_nTrackerPort);
+	_stprintf_s(szBuf, MAX_PATH, _T("%u"), m_nTrackerPort);
 	bSuccess = WritePrivateProfileString(_T("Device"), _T("tracker_port"), szBuf, strPath);
 	ATLASSERT(bSuccess);
 
 	// Display port
-	_stprintf_s(szBuf, _MAX_PATH, _T("%u"), m_nDisplayPort);
+	_stprintf_s(szBuf, MAX_PATH, _T("%u"), m_nDisplayPort);
 	bSuccess = WritePrivateProfileString(_T("Device"), _T("display_port"), szBuf, strPath);
 	ATLASSERT(bSuccess);
 
 	// Compression level
-	_stprintf_s(szBuf, _MAX_PATH, _T("%u"), m_nCompressionLvl);
+	_stprintf_s(szBuf, MAX_PATH, _T("%u"), m_nCompressionLvl);
 	bSuccess = WritePrivateProfileString(_T("Device"), _T("compression"), szBuf, strPath);
 	ATLASSERT(bSuccess);
 
