@@ -31,8 +31,13 @@ CNetTracker::CNetTracker(USHORT nPortNum) :
 	
 CNetTracker::~CNetTracker()
 {
-	CloseSocket();
-	CloseWinsock();
+	HRESULT res;
+
+	res = CloseSocket();
+	ATLASSERT(SUCCEEDED(res));
+
+	res = CloseWinsock();
+	ATLASSERT(SUCCEEDED(res));
 }
 
 HRESULT CNetTracker::GetOrientation(TrkOrientation *pTrkOrientation)
