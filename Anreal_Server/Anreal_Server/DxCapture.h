@@ -37,7 +37,4 @@ private:
 	LPDIRECT3D9 m_pDirect3D;
 	LPDIRECT3DDEVICE9 m_pD3DDevice;
 	LPDIRECT3DSURFACE9 m_pCaptureSurface;
-
-	// Image file buffer
-	BYTE *pImageBits;
 };

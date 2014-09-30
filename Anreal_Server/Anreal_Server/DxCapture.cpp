@@ -6,10 +6,24 @@ CDxCapture::CDxCapture(HWND hWnd, const CptParam &cptParam) :
 	m_hWnd(hWnd),
 	m_cptParam(cptParam)
 {
+	HRESULT res;
+
+	res = InitD3D();
+	ATLASSERT(SUCCEEDED(res));
+
+	res = CreateSurface();
+	ATLASSERT(SUCCEEDED(res));
 }
 
 CDxCapture::~CDxCapture()
 {
+	HRESULT res;
+
+	res = ReleaseSurface();
+	ATLASSERT(SUCCEEDED(res));
+
+	res = CloseD3D();
+	ATLASSERT(SUCCEEDED(res));
 }
 
 HRESULT CDxCapture::GetCapture(CptImageDesc *pCptImageDesc)
@@ -21,6 +35,13 @@ HRESULT CDxCapture::GetCapture(CptImageDesc *pCptImageDesc)
 	}
 
 	HRESULT res;
+
+	//
+	//	Unlock rect
+	//
+
+	res = m_pCaptureSurface->UnlockRect();
+	ATLASSERT(SUCCEEDED(res));
 
 	//
 	//	Get front buffer
