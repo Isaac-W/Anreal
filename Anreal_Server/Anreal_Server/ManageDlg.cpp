@@ -7,16 +7,20 @@
 
 #include "ManageDlg.h"
 
-CManageDlg::CManageDlg() :
-	m_strPath(_T("")),
+CManageDlg::CManageDlg(CString strProfileDir) :
+	m_strProfileDir(strProfileDir),
+	m_strProfileFile(_T("")),
 	m_strProfileName(_T(""))
 {
+	// TODO: Validate profile dir
 }
 
-CManageDlg::CManageDlg(CString strPath) :
-	m_strPath(strPath),
+CManageDlg::CManageDlg(CString strProfileDir, CString strProfileFile) :
+	m_strProfileDir(strProfileDir),
+	m_strProfileFile(strProfileFile),
 	m_strProfileName(_T(""))
 {
+	// TODO: Validate profile dir
 }
 
 CManageDlg::~CManageDlg()
@@ -42,12 +46,12 @@ LRESULT CManageDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPar
 	SetIcon(hIconSmall, FALSE);
 	
 	//
-	//	Load profile
+	//	Load profile from file
 	//
 
-	if (m_strPath.GetLength())
+	if (m_strProfileFile.GetLength())
 	{
-		m_prfConfig.Load(m_strPath);
+		m_prfConfig.Load(m_strProfileFile);
 	}
 
 	//
@@ -66,7 +70,13 @@ LRESULT CManageDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*
 
 LRESULT CManageDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	Apply();
+	// Create profile path
+	CString strPath = m_strProfileDir;
+	strPath.AppendFormat(_T("%s.%s"), m_prfConfig.m_strName, PROFILE_EXT);
+
+	// Save profile to file
+	m_prfConfig.Save(strPath);
+
 	EndDialog(wID);
 	return 0;
 }
@@ -75,18 +85,4 @@ LRESULT CManageDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, B
 {
 	EndDialog(wID);
 	return 0;
-}
-
-LRESULT CManageDlg::OnApply(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-{
-	Apply();
-	return 0;
-}
-
-HRESULT CManageDlg::Apply()
-{
-	// Delete old file if name changed
-	// Save profile config to new file
-
-	return S_OK;
 }

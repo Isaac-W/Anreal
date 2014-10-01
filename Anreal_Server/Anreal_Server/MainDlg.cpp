@@ -226,7 +226,7 @@ LRESULT CMainDlg::OnAddProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 	//	Show profile configuration dialog
 	//
 
-	CManageDlg dlg;
+	CManageDlg dlg(m_strProfilePath);
 
 	// Show dialog
 	int nRet = dlg.DoModal();
@@ -294,7 +294,7 @@ LRESULT CMainDlg::OnConfigProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl
 	//	Show profile configuration dialog
 	//
 
-	CManageDlg dlg(strPath);
+	CManageDlg dlg(m_strProfilePath, strPath);
 
 	// Show dialog
 	int nRet = dlg.DoModal();
@@ -347,8 +347,7 @@ void CMainDlg::RefreshProfiles()
 		strPath.Append(_T("\\"));
 	}
 
-	strPath.Append(_T("*"));
-	strPath.Append(PROFILE_EXT);
+	strPath.AppendFormat(_T("*.%s"), PROFILE_EXT);
 
 	// File entry for enumeration
 	WIN32_FIND_DATA fdCurFile;
@@ -372,13 +371,17 @@ void CMainDlg::RefreshProfiles()
 			continue;
 		}
 
-		CString strName = GetProfileName(fdCurFile.cFileName);
+		// Make absolute profile path
+		CString strPath = m_strProfilePath;
+		strPath.Append(fdCurFile.cFileName);
+
+		CString strName = GetProfileName(strPath); // Must be absolute path
 
 		if (strName.GetLength())
 		{
 			// Add path to profile path list
 			int nListPos = m_lstProfilePaths.size();
-			m_lstProfilePaths.push_back(fdCurFile.cFileName);
+			m_lstProfilePaths.push_back(strPath);
 			
 			// Add profile to combobox
 			int index = m_cboProfiles.AddString(strName);

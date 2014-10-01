@@ -14,9 +14,15 @@ class CManageDlg :
 public:
 	enum { IDD = IDD_MANAGEDLG };
 
-	CManageDlg();
-	// strPath must be an absolute path to the profile file.
-	CManageDlg(CString strPath);
+	// Constructor. Initializes a new, blank profile
+	// strProfileDir must be an absolute path to the profile directory.
+	CManageDlg(CString strProfileDir);
+
+	// Constructor. Loads a profile from the specified file.
+	// strProfileDir must be an absolute path to the profile directory.
+	// strProfileFile must be an absolute path to the profile file.
+	CManageDlg(CString strProfileDir, CString strProfileFile);
+
 	~CManageDlg();
 
 	BEGIN_MSG_MAP(CManageDlg)
@@ -24,7 +30,6 @@ public:
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		COMMAND_ID_HANDLER(IDOK, OnOK)
 		COMMAND_ID_HANDLER(IDCANCEL, OnCancel)
-		COMMAND_ID_HANDLER(IDAPPLY, OnApply)
 	END_MSG_MAP()
 
 private:
@@ -33,15 +38,12 @@ private:
 
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnApply(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-
-private:
-	HRESULT Apply();
 
 public:
 	CString m_strProfileName;
 
 private:
-	CString m_strPath;
+	CString m_strProfileDir;
+	CString m_strProfileFile;
 	CProfile m_prfConfig;
 };
