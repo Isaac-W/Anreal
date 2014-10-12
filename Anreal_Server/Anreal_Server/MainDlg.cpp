@@ -223,13 +223,31 @@ LRESULT CMainDlg::OnConfig(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 LRESULT CMainDlg::OnAddProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	//
+	//	Create new profile file
+	//
+
+	CProfile prfNew;
+
+	CString strPath = m_strProfilePath;
+	strPath.AppendFormat(_T("%s.%s"), _T("profile"), PROFILE_EXT);
+	
+	prfNew.Save(strPath);
+
+	//
+	//	Open profile in text editor
+	//
+
+	HINSTANCE hInst = ShellExecute(m_hWnd, _T("open"), _T("notepad.exe"), strPath, m_strProfilePath, SW_SHOWNORMAL);
+	ATLASSERT(32 < (int)hInst);
+
+	//
 	//	Show profile configuration dialog
 	//
 
-	CManageDlg dlg(m_strProfilePath);
+	//CManageDlg dlg(m_strProfilePath);
 
 	// Show dialog
-	int nRet = dlg.DoModal();
+	//int nRet = dlg.DoModal();
 
 	//
 	//	Update profile list
@@ -241,26 +259,63 @@ LRESULT CMainDlg::OnAddProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 	//	Select profile
 	//
 
-	m_cboProfiles.SelectString(-1, dlg.m_strProfileName);
+	//m_cboProfiles.SelectString(-1, dlg.m_strProfileName);
 
 	return 0;
 }
 
 LRESULT CMainDlg::OnDeleteProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	// TODO: Delete profile
+	int nCurSel = m_cboProfiles.GetCurSel();
+
+	if (nCurSel < 0)
+	{
+		ATLASSERT(0 <= nCurSel);
+		return 0;
+	}
 
 	//
-	//	Update profile list
+	//	Prompt warning
 	//
 
-	RefreshProfiles();
+	int nRet = MessageBox(_T("Are you sure you want to delete this profile?"), _T("Delete Profile"), MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND);
 
-	//
-	//	Select first profile
-	//
+	if (IDOK == nRet)
+	{
+		//
+		//	Get profile path
+		//
 
-	m_cboProfiles.SetCurSel(0);
+		// Get profile path index
+		int nIndex = m_cboProfiles.GetItemData(nCurSel);
+	
+		if ((nIndex < 0) || ((int)m_lstProfilePaths.size() <= nIndex))
+		{
+			ATLASSERT((0 <= nIndex) && (nIndex < (int)m_lstProfilePaths.size()));
+			return 0;
+		}
+
+		CString strPath = m_lstProfilePaths[nIndex];
+
+		//
+		//	Delete profile file
+		//
+
+		BOOL bSuccess = DeleteFile(strPath);
+		ATLASSERT(bSuccess);
+
+		//
+		//	Update profile list
+		//
+
+		RefreshProfiles();
+
+		//
+		//	Select first profile
+		//
+
+		m_cboProfiles.SetCurSel(0);
+	}
 
 	return 0;
 }
@@ -291,13 +346,20 @@ LRESULT CMainDlg::OnConfigProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl
 	CString strPath = m_lstProfilePaths[nIndex];
 
 	//
+	//	Open profile in text editor
+	//
+
+	HINSTANCE hInst = ShellExecute(m_hWnd, _T("open"), _T("notepad.exe"), strPath, m_strProfilePath, SW_SHOWNORMAL);
+	ATLASSERT(32 < (int)hInst);
+
+	//
 	//	Show profile configuration dialog
 	//
 
-	CManageDlg dlg(m_strProfilePath, strPath);
+	//CManageDlg dlg(m_strProfilePath, strPath);
 
 	// Show dialog
-	int nRet = dlg.DoModal();
+	//int nRet = dlg.DoModal();
 
 	//
 	//	Update profile list
@@ -309,7 +371,7 @@ LRESULT CMainDlg::OnConfigProfile(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl
 	//	Select profile
 	//
 
-	m_cboProfiles.SelectString(-1, dlg.m_strProfileName);
+	//m_cboProfiles.SelectString(-1, dlg.m_strProfileName);
 
 	return 0;
 }
@@ -392,7 +454,8 @@ void CMainDlg::RefreshProfiles()
 
 	m_cboProfiles.SetCurSel(0);
 
-	ATLASSERT(!GetLastError());
+	DWORD nError = GetLastError();
+	ATLASSERT(!nError || (ERROR_NO_MORE_FILES == nError));
 	FindClose(hFind);
 }
 
