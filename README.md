@@ -1,6 +1,8 @@
 Anreal
 ======
 
+This project is currently under development, and is expected to be finalized by mid-2015.
+
 The Android Virtual Reality system, or Anreal for short, is a system designed to provide an easy way to convert an Android smartphone or tablet into a head-mounted virtual reality display. Originally inspired by the Oculus Rift, a commercial virtual reality headset currently in development, Anreal aims to mimic the Rift's functionality by providing an open-source software-based implementation.
 
 Anreal is designed as two separate applications: the server, which runs on a Windows PC, and the client, which runs on an Android device. The server program streams screen captures of a stereoscopic 3D-enabled PC game to the Android device, which is then displayed on the device screen. The client program sends head-tracking orientation data to the PC, which is converted into camera/view movements in the game.
